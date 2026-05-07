@@ -10,8 +10,8 @@ Internal strategy and competitive intelligence documents for PsychBright Health'
 
 | File | Description | Version | Date |
 |------|-------------|---------|------|
-| [CAStrategy_competitor_Analysis.html](./CAStrategy_competitor_Analysis.html) | Full growth strategy (4-phase playbook) + competitive intelligence with detailed breakdowns for Mindpath, Foresight, LifeStance, and Geode — calibrated to current operating state | v2 | May 2026 |
-| [psychbright_expansion_strategy.html](./psychbright_expansion_strategy.html) | Multi-site expansion reference: physical footprint options, payer contracting, GBP/SEO, compliance checklist, operations, budget, and outreach templates | v1 | May 2026 |
+| [CAStrategy — Growth Strategy + Competitor Intelligence](https://dduel777.github.io/ExpansionStrategy/CAStrategy_competitor_Analysis.html) | Full growth strategy (4-phase playbook) + competitive intelligence with detailed breakdowns for Mindpath, Foresight, LifeStance, and Geode — calibrated to current operating state | v2 | May 2026 |
+| [Multi-Site Expansion Reference](https://dduel777.github.io/ExpansionStrategy/psychbright_expansion_strategy.html) | Physical footprint options, payer contracting, GBP/SEO, compliance checklist, operations, budget, and outreach templates | v1 | May 2026 |
 
 ---
 
