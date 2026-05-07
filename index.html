@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PsychBright Health — Strategy Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0f0f;
+  --ink-2: #3a3a3a;
+  --ink-3: #6b6b6b;
+  --ink-4: #9a9a9a;
+  --bg: #faf9f7;
+  --bg-2: #f3f1ee;
+  --bg-3: #eceae5;
+  --rule: #dedad4;
+  --accent: #1a4a3a;
+  --accent-light: #e8f0ec;
+  --accent-mid: #2d6b55;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+.page { max-width: 860px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+/* HEADER */
+.header {
+  padding: 3.5rem 0 2.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+}
+.header-left h1 {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+.header-left h1 em { font-style: italic; color: var(--accent-mid); }
+.header-left p { font-size: 0.825rem; color: var(--ink-3); letter-spacing: 0.03em; }
+.header-right {
+  font-size: 0.75rem;
+  color: var(--ink-4);
+  line-height: 1.8;
+  text-align: right;
+  flex-shrink: 0;
+}
+.header-right strong { color: var(--ink-3); font-weight: 500; }
+
+/* BASELINE BAR */
+.baseline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 3rem;
+}
+.bl {
+  padding: 1rem 1.2rem;
+  border-right: 1px solid var(--rule);
+}
+.bl:last-child { border-right: none; }
+.bl-label { font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 4px; }
+.bl-val { font-size: 1.15rem; font-weight: 500; color: var(--ink); line-height: 1.1; }
+.bl-sub { font-size: 0.68rem; color: var(--ink-3); margin-top: 2px; }
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* DOCUMENT CARDS */
+.doc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 3rem;
+}
+
+.doc-card {
+  display: block;
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.doc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent-mid);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.doc-card:hover {
+  border-color: var(--accent-mid);
+  box-shadow: 0 4px 16px rgba(26,74,58,0.08);
+  transform: translateY(-1px);
+}
+.doc-card:hover::before { opacity: 1; }
+
+.doc-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-bottom: 0.75rem;
+}
+.tag-strategy { background: #e8f0ec; color: #1a4a3a; }
+.tag-ops { background: #e6eef5; color: #1a3a5c; }
+.tag-intel { background: #faf0e0; color: #7a4f10; }
+
+.doc-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.doc-desc {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.doc-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--bg-3);
+}
+.doc-version {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--ink-4);
+  letter-spacing: 0.04em;
+}
+.doc-arrow {
+  width: 18px; height: 18px;
+  color: var(--accent-mid);
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.doc-card:hover .doc-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* COMING SOON CARD */
+.doc-card-placeholder {
+  border: 1px dashed var(--rule);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 160px;
+}
+.placeholder-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 0.4rem;
+}
+.placeholder-title {
+  font-size: 0.875rem;
+  color: var(--ink-4);
+  font-style: italic;
+}
+
+/* STATUS ROW */
+.status-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 3rem;
+}
+.status-item {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+.status-label { font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.4rem; }
+.status-val { font-size: 0.875rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
+.status-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.dot-green { background: #1c5c35; }
+.dot-amber { background: #7a4f10; }
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--ink-4);
+}
+
+/* FADE IN */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page > * {
+  animation: fadeUp 0.4s ease both;
+}
+.header { animation-delay: 0s; }
+.baseline { animation-delay: 0.07s; }
+.section-label { animation-delay: 0.12s; }
+.doc-grid { animation-delay: 0.16s; }
+.status-row { animation-delay: 0.2s; }
+.footer { animation-delay: 0.24s; }
+
+@media (max-width: 600px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .header-right { text-align: left; }
+  .baseline { grid-template-columns: 1fr 1fr; }
+  .doc-grid { grid-template-columns: 1fr; }
+  .status-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>PsychBright <em>Health</em><br>Strategy Portal</h1>
+      <p>Internal documents · California expansion · Built with Claude</p>
+    </div>
+    <div class="header-right">
+      <strong>Dr. Daniel Duel, MD</strong><br>
+      CEO & Chief Medical Officer<br>
+      PsychBright Health<br><br>
+      Last updated May 2026
+    </div>
+  </div>
+
+  <!-- BASELINE STATS -->
+  <div class="baseline">
+    <div class="bl">
+      <div class="bl-label">Providers</div>
+      <div class="bl-val">~15</div>
+      <div class="bl-sub">3 MD · 3 therapists · 9 NPs</div>
+    </div>
+    <div class="bl">
+      <div class="bl-label">Monthly encounters</div>
+      <div class="bl-val">900</div>
+      <div class="bl-sub">Mostly part-time provider base</div>
+    </div>
+    <div class="bl">
+      <div class="bl-label">Payer coverage</div>
+      <div class="bl-val">CA-wide</div>
+      <div class="bl-sub">All major commercial + most MA</div>
+    </div>
+    <div class="bl">
+      <div class="bl-label">HQ</div>
+      <div class="bl-val">Beverly Hills</div>
+      <div class="bl-sub">Virtual-first, expanding footprint</div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="section-label">Strategy documents</div>
+  <div class="doc-grid">
+
+    <a class="doc-card" href="https://dduel777.github.io/ExpansionStrategy/CAStrategy_competitor_Analysis.html" target="_blank">
+      <div class="doc-tag tag-strategy">Growth Strategy</div>
+      <div class="doc-title">CA Growth Strategy &amp; Competitor Intelligence</div>
+      <div class="doc-desc">4-phase expansion playbook + full competitive breakdowns for Mindpath, Foresight, LifeStance, and Geode. Calibrated to current operating state.</div>
+      <div class="doc-meta">
+        <span class="doc-version">v2 · May 2026</span>
+        <svg class="doc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <a class="doc-card" href="https://dduel777.github.io/ExpansionStrategy/psychbright_expansion_strategy.html" target="_blank">
+      <div class="doc-tag tag-ops">Operations Reference</div>
+      <div class="doc-title">Multi-Site Expansion Reference</div>
+      <div class="doc-desc">Physical footprint options, payer contracting, GBP/SEO setup, compliance checklist, operations, budget, and outreach templates.</div>
+      <div class="doc-meta">
+        <span class="doc-version">v1 · May 2026</span>
+        <svg class="doc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <div class="doc-card-placeholder">
+      <div class="placeholder-label">Coming next</div>
+      <div class="placeholder-title">PCP Outreach Templates &amp; Referral Program</div>
+    </div>
+
+    <div class="doc-card-placeholder">
+      <div class="placeholder-label">Coming next</div>
+      <div class="placeholder-title">Humana MA Contracting Memo</div>
+    </div>
+
+  </div>
+
+  <!-- STATUS ROW -->
+  <div class="section-label">Active gaps &amp; priorities</div>
+  <div class="status-row">
+    <div class="status-item">
+      <div class="status-label">Payer gap</div>
+      <div class="status-val"><span class="status-dot dot-amber"></span>Humana Medicare Advantage — priority close</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Medi-Cal decision</div>
+      <div class="status-val"><span class="status-dot dot-amber"></span>Deferred to Phase 2 — pending ops review</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Sublease nodes</div>
+      <div class="status-val"><span class="status-dot dot-amber"></span>OC · San Diego · Inland Empire — in progress</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">GBP listings</div>
+      <div class="status-val"><span class="status-dot dot-amber"></span>Zero outside Beverly Hills — building</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">PCP referral program</div>
+      <div class="status-val"><span class="status-dot dot-amber"></span>No systematic outreach yet</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Provider utilization</div>
+      <div class="status-val"><span class="status-dot dot-green"></span>Capacity audit pending — likely headroom</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>PsychBright Health · Strategy Portal · dduel777.github.io/ExpansionStrategy</span>
+    <span>Confidential — internal use only</span>
+  </div>
+
+</div>
+</body>
+</html>
