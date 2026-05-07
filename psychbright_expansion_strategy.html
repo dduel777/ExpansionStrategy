@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PsychBright Health — Multi-Site Expansion Strategy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; background: #fff; padding: 2rem; max-width: 860px; margin: 0 auto; }
+
+  .header { margin-bottom: 1.5rem; border-bottom: 1px solid #e5e5e5; padding-bottom: 1rem; }
+  .header h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: #666; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+  .tab { font-size: 12px; padding: 5px 12px; border-radius: 6px; border: 1px solid #ddd; background: #fff; color: #555; cursor: pointer; transition: all 0.15s; }
+  .tab:hover { background: #f5f5f5; }
+  .tab.active { background: #f0f0f0; color: #1a1a1a; border-color: #bbb; font-weight: 600; }
+  .tab.chatgpt-tab { border-color: #10a37f; color: #10a37f; }
+  .tab.chatgpt-tab.active { background: #e6f7f3; color: #0a7a5e; border-color: #10a37f; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  h2 { font-size: 17px; font-weight: 600; margin-bottom: 1rem; }
+  h3 { font-size: 14px; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #1a1a1a; }
+  h4 { font-size: 13px; font-weight: 600; margin: 1rem 0 0.4rem; }
+  p { font-size: 14px; line-height: 1.65; color: #1a1a1a; margin-bottom: 0.75rem; }
+  ul, ol { font-size: 14px; line-height: 1.65; padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 4px; }
+  a { color: #185FA5; }
+
+  .risk { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
+  .risk-low { background: #EAF3DE; color: #3B6D11; }
+  .risk-med { background: #FAEEDA; color: #854F0B; }
+  .risk-high { background: #FCEBEB; color: #A32D2D; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 1rem 1.1rem; }
+  .card-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .card p { font-size: 13px; margin-bottom: 4px; }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-weight: 600; font-size: 12px; color: #666; padding: 6px 8px; border-bottom: 1px solid #ddd; }
+  td { padding: 8px 8px; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+
+  .flag { background: #FAEEDA; color: #854F0B; font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 0.75rem; border-left: 3px solid #EF9F27; line-height: 1.6; }
+  .alert { background: #FCEBEB; color: #A32D2D; font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 0.75rem; border-left: 3px solid #E24B4A; line-height: 1.6; }
+  .note { background: #f5f5f5; color: #555; font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 0.75rem; line-height: 1.6; }
+  .gpt-note { background: #e6f7f3; color: #0a5e49; font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 0.75rem; border-left: 3px solid #10a37f; line-height: 1.6; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box { width: 14px; height: 14px; min-width: 14px; border: 1px solid #ccc; border-radius: 3px; margin-top: 1px; }
+
+  .phase { border: 1px solid #e5e5e5; border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 0.75rem; }
+  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+  .phase-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
+  .p1 { background: #E6F1FB; color: #185FA5; }
+  .p2 { background: #E1F5EE; color: #0F6E56; }
+  .p3 { background: #EEEDFE; color: #534AB7; }
+
+  .template-box { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 10px; padding: 1rem 1.1rem; font-size: 13px; line-height: 1.7; white-space: pre-wrap; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin-bottom: 1rem; }
+
+  .divider { border: none; border-top: 1px solid #e5e5e5; margin: 1.25rem 0; }
+
+  .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+  .metric { background: #f5f5f5; border-radius: 8px; padding: 0.75rem 1rem; }
+  .metric-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .metric-value { font-size: 20px; font-weight: 600; }
+  .metric-sub { font-size: 11px; color: #888; margin-top: 2px; }
+
+  /* ChatGPT tab styles */
+  .gpt-section h2 { color: #0a5e49; }
+  .gpt-section h3 { color: #0a5e49; border-bottom: 1px solid #e6f7f3; padding-bottom: 4px; }
+  .gpt-section h4 { color: #1a1a1a; }
+  .gpt-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; background: #e6f7f3; color: #0a5e49; padding: 3px 8px; border-radius: 99px; margin-bottom: 1rem; }
+  .ranking-card { border: 1px solid #e5e5e5; border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 0.75rem; }
+  .ranking-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a1a; }
+  .rank-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #10a37f; color: #fff; font-size: 11px; font-weight: 700; margin-right: 6px; }
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .do-box { background: #EAF3DE; border-radius: 10px; padding: 1rem; }
+  .dont-box { background: #FCEBEB; border-radius: 10px; padding: 1rem; }
+  .do-box h4 { color: #3B6D11; margin-bottom: 0.5rem; }
+  .dont-box h4 { color: #A32D2D; margin-bottom: 0.5rem; }
+  .do-box li, .dont-box li { font-size: 13px; margin-bottom: 3px; }
+  .decision-tree { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+  .decision-tree table { font-size: 12px; }
+  .footnote { font-size: 11px; color: #888; margin-top: 0.5rem; font-style: italic; }
+  cite-tag { font-size: 11px; color: #888; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PsychBright Health — Multi-Site Expansion Strategy</h1>
+  <p>Virtual psychiatry · California expansion · Telehealth-first footprint</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="show(0)">1. Physical Footprint</button>
+  <button class="tab" onclick="show(1)">2. Payer Contracting</button>
+  <button class="tab" onclick="show(2)">3. Google / SEO</button>
+  <button class="tab" onclick="show(3)">4. Compliance</button>
+  <button class="tab" onclick="show(4)">5. Operations</button>
+  <button class="tab" onclick="show(5)">6. Budget &amp; Rollout</button>
+  <button class="tab" onclick="show(6)">7. Templates</button>
+  <button class="tab chatgpt-tab" onclick="show(7)">ChatGPT Response</button>
+</div>
+
+<!-- SECTION 1: Physical Footprint -->
+<div class="section active" id="s0">
+  <h2>Physical footprint options</h2>
+  <p>You need a legitimate, stable address at each location — not a virtual mailbox. Below are the realistic options ranked by operability and risk.</p>
+  <div class="flag">The single most important rule: the address must be a real office where you can receive mail, place a small sign, and occasionally see a patient if required by a payer. A UPS Store or Regus virtual plan alone will not cut it.</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Payer credentialing</th>
+          <th>GBP eligible</th>
+          <th>Est. cost/mo</th>
+          <th>Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Therapy or psych group sublease</strong> — 1 room, 2–4 hrs/wk reserved use</td>
+          <td>Strong. Real clinical address, same specialty, landlord familiar with payer issues</td>
+          <td>Yes, with clear signage rights</td>
+          <td>$300–600</td>
+          <td><span class="risk risk-low">Low</span></td>
+        </tr>
+        <tr>
+          <td><strong>PCP / multi-specialty medical office sublease</strong> — hourly or monthly room</td>
+          <td>Strong. Medical-grade space. Payers prefer this.</td>
+          <td>Yes</td>
+          <td>$400–800</td>
+          <td><span class="risk risk-low">Low</span></td>
+        </tr>
+        <tr>
+          <td><strong>Executive suite (medical-friendly)</strong> — e.g. Opus/Premier Medical Offices</td>
+          <td>Acceptable if suite is listed as medical and you have a dedicated suite #</td>
+          <td>Yes if suite has physical door/signage</td>
+          <td>$350–700</td>
+          <td><span class="risk risk-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td><strong>Shared coworking with occasional room booking</strong> — e.g. WeWork + conference room</td>
+          <td>Weak. Most payers won't accept generic coworking as a practice address</td>
+          <td>Risky — GBP may suspend</td>
+          <td>$150–350</td>
+          <td><span class="risk risk-high">High</span></td>
+        </tr>
+        <tr>
+          <td><strong>FQHCs / community health centers</strong> — affiliate or partner relationship</td>
+          <td>Strong, but complex MOUs needed</td>
+          <td>Yes</td>
+          <td>Variable, often low</td>
+          <td><span class="risk risk-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td><strong>Virtual mailbox only</strong> (Anytime Mailbox, iPostal1)</td>
+          <td>Not accepted. CAQH and most payers require a physical practice location</td>
+          <td>No — GBP explicitly prohibits virtual addresses for service businesses</td>
+          <td>$20–60</td>
+          <td><span class="risk risk-high">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Recommended approach</h3>
+  <p><strong>Therapy or psych group sublease is your best path.</strong> Reach out to solo therapists or small group practices in each target city. They often have underutilized rooms and welcome monthly income. You get a clinical address, occasional in-person capacity, and a natural referral relationship.</p>
+  <p>Structure it as a formal sublease (not just a handshake): defined hours, mail handling rights, signage permission, HIPAA BAA if the landlord might access PHI, and right to list the address publicly.</p>
+</div>
+
+<!-- SECTION 2: Payer Contracting -->
+<div class="section" id="s1">
+  <h2>Payer contracting implications</h2>
+  <h3>How multi-location works in CAQH and NPPES</h3>
+  <p>Each physical address needs to be registered as a practice location. Here's what that looks like across each system:</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>System</th><th>What you update</th><th>How often</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>NPPES</strong></td>
+          <td>Add each address as a secondary practice location under your group NPI (Type II) and each provider's individual NPI (Type I)</td>
+          <td>Before contracting each location</td>
+          <td>NPPES updates propagate to payer directories. Inconsistency is the #1 audit red flag.</td>
+        </tr>
+        <tr>
+          <td><strong>CAQH ProView</strong></td>
+          <td>Add each practice location in the "Practice Locations" section. Upload sublease or lease evidence if requested.</td>
+          <td>At attestation (every 120 days)</td>
+          <td>Payers pull from CAQH. A location not in CAQH will delay or block credentialing.</td>
+        </tr>
+        <tr>
+          <td><strong>Payer directories</strong></td>
+          <td>Submit location addition requests to each payer's provider relations team after credentialing</td>
+          <td>Per location addition</td>
+          <td>Most payers add 30–90 days processing time per location. Budget for this in rollout timelines.</td>
+        </tr>
+        <tr>
+          <td><strong>Group contract (TIN)</strong></td>
+          <td>Your group TIN contract typically allows additional locations — confirm with each payer. Some require a contract amendment; others just need a location addition form.</td>
+          <td>Per location</td>
+          <td>Blue Shield, Anthem, and Aetna each have different location amendment processes. Ask payer relations proactively.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>What a credible setup looks like to a payer</h3>
+  <ul>
+    <li>Address matches across NPPES, CAQH, and payer directory</li>
+    <li>Physical location verifiable by site visit (rare but happens)</li>
+    <li>Local phone number (or Zoom Phone extension routed to that "market")</li>
+    <li>Address consistent on your website and Google Business Profile</li>
+    <li>Sublease or lease documentation available if audited</li>
+  </ul>
+  <h3>What looks suspicious to a payer</h3>
+  <div class="alert">Red flags that trigger payer audits or directory removals: address is a UPS Store or Regus mailbox; multiple provider NPIs listing the same non-clinical address; address added within 30 days of a billing spike; no local presence evidence (no GBP, no website mention).</div>
+  <h3>Telehealth service area vs. practice location</h3>
+  <p>This distinction matters: a practice location is where you are listed as based and credentialed. A telehealth service area is where patients are located. You do not need a physical address in every county you serve — only in the markets where you want local directory presence and SEO lift. Credential selectively.</p>
+</div>
+
+<!-- SECTION 3: Google / SEO -->
+<div class="section" id="s2">
+  <h2>Google Business Profile and local SEO</h2>
+  <h3>What qualifies for a GBP listing in healthcare</h3>
+  <p>Google's guidelines for healthcare providers require a staffed physical location where patients can be seen. Specifically:</p>
+  <ul>
+    <li>The address must be a real office, not a P.O. box, UPS Store, or shared mailbox</li>
+    <li>The location must be staffed during stated hours, or have a clear way to reach the practice</li>
+    <li>Telehealth-only practices can list a physical address if they have a legitimate office at that address — even if visits are rare</li>
+    <li>You must be able to receive patients at that address if requested</li>
+  </ul>
+  <div class="flag">Practical interpretation: a therapy sublease where you could see a patient for an in-person intake (even once a month) qualifies. A mailbox address does not. The test Google applies is: could a patient walk in and find your practice here?</div>
+  <h3>GBP suspension risks</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Risk factor</th><th>How to avoid</th></tr></thead>
+      <tbody>
+        <tr><td>Virtual office / mailbox address</td><td>Only use real subleased clinical space with signage rights</td></tr>
+        <tr><td>Address inconsistency (website vs. GBP vs. NPPES)</td><td>NAP consistency check before each listing goes live — exact match required</td></tr>
+        <tr><td>Creating multiple listings too fast</td><td>Stagger listings — 1 new location per 2–4 weeks minimum</td></tr>
+        <tr><td>No reviews or engagement on new listings</td><td>Request Google reviews from existing patients in the new service area</td></tr>
+        <tr><td>Keyword stuffing in business name</td><td>List as "PsychBright Health" — not "PsychBright Psychiatry ADHD Anxiety Beverly Hills"</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Location pages: avoiding thin/duplicate content</h3>
+  <p>Each city landing page must be substantively different from the others. The bare minimum per page:</p>
+  <ul>
+    <li>City-specific intro paragraph (local landmarks, community context, prevalence data if available)</li>
+    <li>Local provider bios if applicable (even a sentence about their connection to that area)</li>
+    <li>Insurance coverage specific to that market (e.g., Medi-Cal managed care plans for certain counties)</li>
+    <li>Local FAQ (e.g., "Do you see patients near [landmark/hospital]?")</li>
+    <li>Embedded Google Map of the local address</li>
+    <li>Unique meta title and description — not templated with city name swapped</li>
+  </ul>
+  <p>Pages that only swap the city name are flagged as doorway pages by Google and may be penalized. Budget for 300–500 words of unique content per city page, ideally written by someone with local knowledge or lightly customized from a template by a VA.</p>
+</div>
+
+<!-- SECTION 4: Compliance -->
+<div class="section" id="s3">
+  <h2>Compliance checklist</h2>
+  <p>Items to review with healthcare counsel before scaling. This is not legal advice — it's a scoping list.</p>
+  <h3>Lease / sublease</h3>
+  <ul class="checklist">
+    <li><span class="check-box"></span>Right to use address in all marketing, NPPES, CAQH, and payer directories explicitly stated in writing</li>
+    <li><span class="check-box"></span>Right to receive mail at address (including payer correspondence, credentialing mail)</li>
+    <li><span class="check-box"></span>Right to place signage (even small — a nameplate or suite label is usually sufficient for payers)</li>
+    <li><span class="check-box"></span>Defined minimum access hours (even 4 hrs/week) for occasional in-person use</li>
+    <li><span class="check-box"></span>HIPAA Business Associate Agreement if host has any possibility of accessing PHI (shared staff, shared check-in areas, visible records)</li>
+    <li><span class="check-box"></span>Termination clause: 30-day notice minimum to protect your credentialing continuity</li>
+    <li><span class="check-box"></span>Insurance: confirm your professional liability and general liability cover the sublease location</li>
+  </ul>
+  <h3>HIPAA</h3>
+  <ul class="checklist">
+    <li><span class="check-box"></span>BAA with any co-tenant or building staff who might encounter PHI</li>
+    <li><span class="check-box"></span>Mail handling SOP: all payer correspondence and patient mail forwarded to PsychBright within 24–48 hours</li>
+    <li><span class="check-box"></span>Physical security: if any clinical work happens at the location, ensure the room can be private</li>
+  </ul>
+  <h3>California-specific</h3>
+  <ul class="checklist">
+    <li><span class="check-box"></span>Fictitious Business Name (FBN) / DBA: if doing business as "PsychBright Health" at a new county address, may require a county-level FBN filing. Check with your attorney — low cost (&lt;$100/county) but often overlooked.</li>
+    <li><span class="check-box"></span>Medical Corporation rules: California prohibits lay ownership of medical corporations. Confirm your existing corporate structure covers operation in new locations without additional filings.</li>
+    <li><span class="check-box"></span>DMHC / Knox-Keene: if you ever take on capitated or managed care risk contracts, additional licensure may apply. Not relevant for fee-for-service telehealth.</li>
+    <li><span class="check-box"></span>Medi-Cal provider enrollment: if you plan to accept Medi-Cal in new locations, each location may require separate enrollment. Coordinate with your biller.</li>
+  </ul>
+  <h3>Payer audit risk</h3>
+  <ul class="checklist">
+    <li><span class="check-box"></span>Maintain lease/sublease docs on file — payers can request proof of practice location</li>
+    <li><span class="check-box"></span>Ensure all providers billing from a new address are credentialed at that address before billing</li>
+    <li><span class="check-box"></span>Do not list an address on a payer directory until the space is actually secured</li>
+  </ul>
+  <div class="note">Bottom line for counsel: you need a healthcare-savvy real estate attorney to review sublease language, and your healthcare compliance attorney to sign off on the payer credentialing approach and FBN question. One-time review per template, not per location.</div>
+</div>
+
+<!-- SECTION 5: Operations -->
+<div class="section" id="s4">
+  <h2>Lean operating model — day-to-day across sites</h2>
+  <h3>Mail handling</h3>
+  <p>Every sublease location will receive payer mail, occasional patient correspondence, and credentialing notices. Your options:</p>
+  <ul>
+    <li><strong>Best option:</strong> Include in sublease that host office scans and emails all incoming mail to a designated PsychBright Gmail alias (e.g., <em>losangeles@psychbrighthealth.com</em>) within 24 hours. Pay a small handling fee ($25–50/mo) if needed.</li>
+    <li><strong>Backup:</strong> VA drives to the location weekly to pick up mail. Only viable within your existing VA coverage area (Beverly Hills / LA metro).</li>
+    <li><strong>For distant markets:</strong> Use a local 1099 contractor (often a therapist admin) for mail pickup at $50–75/mo.</li>
+  </ul>
+  <h3>Phone routing</h3>
+  <p>You're already on Zoom Phone. Assign a local DID (Direct Inward Dial) number for each new market. Route it to your existing call queues. Cost is minimal (~$5/mo per DID). The local number displays on GBP and the website, improving local SEO and patient trust. Do not get a separate phone system per location.</p>
+  <h3>VA workflows</h3>
+  <p>Your Philippines VA team doesn't change — they work centrally. What changes per new location:</p>
+  <ul>
+    <li>New Gmail alias monitored in shared inbox</li>
+    <li>New GBP listing claimed and maintained (respond to reviews, update hours)</li>
+    <li>Credentialing tracker in Notion updated with new location statuses</li>
+    <li>Payer directory check: quarterly audit that each location appears correctly in Anthem, Blue Shield, Aetna, etc.</li>
+  </ul>
+  <h3>What happens if a patient shows up in person</h3>
+  <div class="flag">This will happen. Prepare for it. Your sublease host needs to know the protocol: patients are seen by appointment only, telehealth practice, all visits virtual. Host staff gives them a card with your scheduling line (ext. 810) and explains the model. You are not abandoning patients — you're redirecting them to the correct intake channel.</div>
+  <p>Optionally, you can offer occasional in-person intakes at the sublease location for patients who specifically request it. Even 2–4 per month per location validates the physical presence and strengthens payer audit defensibility.</p>
+  <h3>Integration with existing stack</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>System</th><th>Change required per new location</th></tr></thead>
+      <tbody>
+        <tr><td>Zoom Phone</td><td>Add 1 local DID number; route to existing scheduling queue (ext. 810)</td></tr>
+        <tr><td>Gmail / Google Workspace</td><td>Create location alias (e.g., sandiego@psychbrighthealth.com); add to shared inbox</td></tr>
+        <tr><td>Valant</td><td>Add new practice location in admin settings; assign credentialed providers to that location</td></tr>
+        <tr><td>Notion</td><td>Add new location row to credentialing dashboard; add mail handling log page</td></tr>
+        <tr><td>GoHighLevel</td><td>Tag contacts by service area; consider location-specific intake pipelines if patient volume warrants</td></tr>
+        <tr><td>Google Ads</td><td>Create location-specific ad groups targeting new city; point to new location page</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 6: Budget & Rollout -->
+<div class="section" id="s5">
+  <h2>Budget and phased rollout</h2>
+  <div class="metric-row">
+    <div class="metric">
+      <div class="metric-label">Per-location setup (one-time)</div>
+      <div class="metric-value">$500–1,200</div>
+      <div class="metric-sub">Legal review, FBN filing, GBP setup</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Monthly overhead per site</div>
+      <div class="metric-value">$450–750</div>
+      <div class="metric-sub">Sublease + DID + mail handling</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Credentialing lag</div>
+      <div class="metric-value">60–120 days</div>
+      <div class="metric-sub">From lease signed to payer active</div>
+    </div>
+  </div>
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-badge p1">Phase 1</span>
+      <strong style="font-size:14px;">First 2–3 locations — months 1–3</strong>
+    </div>
+    <p style="font-size:13px; margin-bottom:6px;">Target: 2–3 high-priority California markets (e.g., San Diego, Orange County, Sacramento — based on your existing patient referral patterns and payer network strength).</p>
+    <ul style="font-size:13px;">
+      <li>Finalize sublease template and legal review (one-time cost: $500–800 in attorney fees)</li>
+      <li>Execute 2–3 subleases ($300–600/mo each)</li>
+      <li>Register locations in NPPES and CAQH</li>
+      <li>Submit location additions to your top 3–4 payers</li>
+      <li>Create GBP listings (stagger 2–3 weeks apart)</li>
+      <li>Build location pages on website</li>
+      <li>Assign local DID numbers in Zoom Phone</li>
+    </ul>
+    <p style="font-size:13px; color:#888; margin-top:6px;">One-time: ~$1,500–2,500 total · Monthly overhead: ~$900–1,800 · Payers active: month 3–5</p>
+  </div>
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-badge p2">Phase 2</span>
+      <strong style="font-size:14px;">3–5 additional locations — months 4–9</strong>
+    </div>
+    <p style="font-size:13px; margin-bottom:6px;">By now you have a working sublease template, a credentialing playbook, and at least one location generating local search traffic. Replicate systematically.</p>
+    <ul style="font-size:13px;">
+      <li>Use same sublease template — minimal additional legal cost</li>
+      <li>Target markets with high density of payer covered lives (e.g., Bay Area, Riverside, Fresno)</li>
+      <li>Hire or assign a dedicated VA workflow for multi-location directory maintenance</li>
+      <li>Evaluate whether any location warrants a local part-time admin coordinator</li>
+      <li>Begin tracking ROI: new patients per location, payer directory clicks, GBP calls</li>
+    </ul>
+    <p style="font-size:13px; color:#888; margin-top:6px;">One-time: ~$2,500–4,000 · Monthly overhead: ~$1,800–3,500 · Expected first patient referrals from SEO: month 5–7</p>
+  </div>
+  <div class="phase">
+    <div class="phase-header">
+      <span class="phase-badge p3">Phase 3</span>
+      <strong style="font-size:14px;">Scale to 10+ locations — months 10–18</strong>
+    </div>
+    <p style="font-size:13px; margin-bottom:6px;">At this stage the operational model is mature. Focus shifts to coverage gaps, payer mix optimization, and potentially co-locating with PCP groups for referral pipeline.</p>
+    <ul style="font-size:13px;">
+      <li>Systematize sublease outreach with a templated cold email campaign (VA-executed)</li>
+      <li>Consider hiring a part-time credentialing coordinator (1099 or fractional) to manage CAQH attestations and payer directory audits at scale</li>
+      <li>Evaluate co-marketing agreements with sublease hosts (mutual referrals)</li>
+      <li>Reassess monthly site overhead — negotiate better rates for longer-term subleases</li>
+    </ul>
+    <p style="font-size:13px; color:#888; margin-top:6px;">Monthly overhead at 10 sites: ~$4,500–7,500 · Budget offset by incremental payer revenue from local contracting</p>
+  </div>
+  <div class="note">Key timing reality: securing a sublease and getting a payer to recognize the new location in their directory are independent timelines. Expect 60–120 days from lease signing to first billable patient through a new payer at a new location. Start credentialing paperwork the same week you sign each sublease.</div>
+</div>
+
+<!-- SECTION 7: Templates -->
+<div class="section" id="s6">
+  <h2>Outreach email — therapy/medical office sublease</h2>
+  <div class="template-box">Subject: Office space partnership inquiry — virtual psychiatry group
+
+Hi [Name],
+
+I'm the medical director of PsychBright Health, a virtual psychiatry practice based in Beverly Hills. We're expanding our footprint into [City] and looking to sublease a room from an established clinical practice.
+
+What we're looking for is minimal:
+- Use of one private room, roughly 4–8 hours per week (or a defined monthly block)
+- Right to use the address for our payer credentialing and public listings
+- Ability to receive and forward mail
+- A small nameplate or signage in the suite
+
+We have no front desk needs, no patient foot traffic to manage, and no overlap with your clinical services. This is primarily about having a legitimate local clinical address as a virtual practice.
+
+We'd pay a flat monthly sublease fee and handle our own scheduling, staffing, and operations entirely.
+
+Would you be open to a quick 15-minute call to see if this makes sense? Happy to share more about our practice and structure.
+
+Best,
+Dr. Daniel Duel, MD
+CEO &amp; Chief Medical Officer
+PsychBright Health
+[phone] | psychbrighthealth.com</div>
+
+  <hr class="divider">
+
+  <h2>Lease/sublease — required provisions checklist</h2>
+  <p>This is your minimum viable lease checklist. Have counsel review any agreement against these before signing.</p>
+  <ul class="checklist">
+    <li><span class="check-box"></span><strong>Address use rights</strong> — explicit written permission to use the address in payer credentialing filings, NPPES, CAQH, Google Business Profile, and all public marketing materials</li>
+    <li><span class="check-box"></span><strong>Mail receipt rights</strong> — right to receive mail at the address; defined forwarding protocol (timeline, method)</li>
+    <li><span class="check-box"></span><strong>Signage rights</strong> — right to place a nameplate, suite label, or small sign at or near the entrance. Even a 4"x6" nameplate qualifies for most payer audits.</li>
+    <li><span class="check-box"></span><strong>Minimum access hours</strong> — defined weekly or monthly block for occasional in-person use. Even 4 hours/week is sufficient.</li>
+    <li><span class="check-box"></span><strong>HIPAA BAA</strong> — if the host has any staff who could encounter PHI (shared check-in area, visible records, shared printers), execute a HIPAA BAA with the entity or individual.</li>
+    <li><span class="check-box"></span><strong>Termination notice</strong> — minimum 30-day written notice required to terminate. 60 days preferred. Protects credentialing continuity — payer directory removals take time.</li>
+    <li><span class="check-box"></span><strong>No exclusivity restriction</strong> — confirm the sublease doesn't restrict you from operating in the same specialty or geographic area. Some therapy groups include non-compete-style clauses.</li>
+    <li><span class="check-box"></span><strong>No assignment of liability</strong> — you are not taking on liability for the host's premises beyond your direct use. Confirm your general liability policy covers the sublease space.</li>
+    <li><span class="check-box"></span><strong>Sublease acknowledgment</strong> — if the host is themselves a tenant (not the building owner), confirm their prime lease allows subleasing and that you have written acknowledgment from them.</li>
+    <li><span class="check-box"></span><strong>Address consistency clause</strong> — note in the agreement the exact address format you will use publicly (Suite #, floor, etc.) to prevent NAP inconsistencies later.</li>
+  </ul>
+  <div class="note">One-time counsel review of your sublease template (~$500–800) is worth it. Once the template is vetted, you can execute each new location with minimal additional legal cost — just adapt the template and have a quick review if terms differ materially.</div>
+</div>
+
+<!-- SECTION 8: ChatGPT -->
+<div class="section gpt-section" id="s7">
+  <div class="gpt-badge">ChatGPT Response</div>
+  <h2>PsychBright Health — Multi-Site Expansion Blueprint (ChatGPT)</h2>
+
+  <div class="gpt-note"><strong>Executive summary:</strong> For a virtual psychiatry group, the safest expansion model is not to create cheap "addresses" but to build a small number of real, defensible satellite practice locations that can honestly support payer directories, patient expectations, and local SEO. The minimum standard: a real private or shared healthcare office, available by written agreement, where mail can be received, signage is permitted, administrative or telehealth work can occur, and patients could be seen by appointment if needed.</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Use Case</th><th>Safest Address Type</th></tr></thead>
+      <tbody>
+        <tr><td>Payer credentialing / directories</td><td>Real healthcare office sublease or host-office arrangement</td></tr>
+        <tr><td>CAQH / NPPES consistency</td><td>Real practice location with clear location records</td></tr>
+        <tr><td>Google Business Profile</td><td>Staffed patient-facing office, or be very cautious</td></tr>
+        <tr><td>SEO location pages</td><td>Can be broader than GBP, but must not imply fake offices</td></tr>
+        <tr><td>Low-cost testing</td><td>Therapy/medical sublease 1 day/week</td></tr>
+        <tr><td>Scaled footprint</td><td>Standardized host-office model</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+  <h2>1. Physical Footprint Options — Ranked</h2>
+
+  <div class="ranking-card">
+    <h4><span class="rank-num">1</span>Therapy office sublease — <em>best lean model</em></h4>
+    <p>Sublease a furnished therapy office inside an existing behavioral health suite for one day per week, a few half-days per month, or a flexible monthly block. Healthcare-adjacent, patient-appropriate, private, and designed for behavioral health. California examples range from roughly <strong>$200/month for one day/week</strong> in lower-cost areas to <strong>$450–500/month per dedicated day/week</strong> in LA-type markets.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Assessment</th></tr></thead>
+        <tbody>
+          <tr><td>Payer legitimacy</td><td>High if lease allows use as practice location</td></tr>
+          <tr><td>CAQH / NPPES suitability</td><td>High if address can be listed and verified</td></tr>
+          <tr><td>GBP eligibility</td><td>Moderate to high only if truly patient-facing and staffed during listed hours</td></tr>
+          <tr><td>Monthly cost</td><td>~$200–$800/month</td></tr>
+          <tr><td>Compliance risk</td><td>Low to moderate</td></tr>
+          <tr><td>Best use case</td><td>First 2–3 pilot locations</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flag" style="font-size:12px;">Caution: If you only rent "occasional hours" but list the location as open Monday–Friday, that becomes risky. Listed hours must match real availability or be "appointment-only."</div>
+  </div>
+
+  <div class="ranking-card">
+    <h4><span class="rank-num">2</span>Medical office sublease — <em>strongest payer model</em></h4>
+    <p>A small room or part-time office inside a PCP, neurology, OB-GYN, or multispecialty practice. Especially attractive if the host practice also becomes a referral source for depression, anxiety, ADHD, geriatric psych, or medication management cases.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Assessment</th></tr></thead>
+        <tbody>
+          <tr><td>Payer legitimacy</td><td>Very high</td></tr>
+          <tr><td>Monthly cost</td><td>~$500–$2,000+</td></tr>
+          <tr><td>Best use case</td><td>Strategic markets where you want payer/referral credibility</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ranking-card">
+    <h4><span class="rank-num">3</span>Shared behavioral health office — <em>very strong brand fit</em></h4>
+    <p>Suite shared with therapists, psychologists, TMS clinics, IOP programs, or counseling centers. May be the cleanest "virtual-first but legitimate" structure because the category matches patient expectations.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Assessment</th></tr></thead>
+        <tbody>
+          <tr><td>Payer legitimacy</td><td>High</td></tr>
+          <tr><td>Monthly cost</td><td>~$300–$1,500/month</td></tr>
+          <tr><td>Best use case</td><td>Psychiatry expansion with referral synergy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ranking-card">
+    <h4><span class="rank-num">4</span>PCP or therapy group host-office partnership — <em>best strategic model</em></h4>
+    <p>A local practice agrees to host PsychBright's satellite presence. May pay rent, a flat admin/location fee, or create a non-referral-fee partnership.</p>
+    <div class="alert" style="font-size:12px;">Important: Avoid anything that looks like payment for referrals. Keep rent commercially reasonable and documented. Counsel should review Stark/Anti-Kickback concerns.</div>
+  </div>
+
+  <div class="ranking-card">
+    <h4><span class="rank-num">5</span>Executive suite / private office — <em>payer-usable, Google-risky</em></h4>
+    <p>A private office in Regus/IWG, Premier Workspaces, Carr Workplaces, Industrious, etc. Google explicitly says service-area businesses cannot list a virtual office unless staffed during business hours. Use only if you have a real private office, access rights, mail rights, and someone can truthfully receive patients during listed hours.</p>
+  </div>
+
+  <div class="ranking-card" style="border-color: #fcc;">
+    <h4><span class="risk risk-high" style="margin-right:6px;">Do not use</span>Mailbox-only / virtual mailbox</h4>
+    <p>Google says P.O. boxes or mailboxes at remote locations are not acceptable for representing a business location. CAQH and most payers require a physical practice location. Superficially scalable, strategically dangerous.</p>
+  </div>
+
+  <hr class="divider">
+  <h2>2. Minimum Standard for a Legitimate Location</h2>
+
+  <h3>Required</h3>
+  <ul class="checklist">
+    <li><span class="check-box"></span>Written lease, sublease, license, or host-office agreement</li>
+    <li><span class="check-box"></span>Right to use the address as a PsychBright practice location</li>
+    <li><span class="check-box"></span>Right to receive mail</li>
+    <li><span class="check-box"></span>Right to list the location with payers, CAQH, NPPES, and directories</li>
+    <li><span class="check-box"></span>A private room suitable for healthcare conversations</li>
+    <li><span class="check-box"></span>Defined access hours</li>
+    <li><span class="check-box"></span>A documented workflow for a patient physically arriving</li>
+    <li><span class="check-box"></span>A local contact or host staff member who understands the arrangement</li>
+    <li><span class="check-box"></span>HIPAA/privacy expectations in writing</li>
+    <li><span class="check-box"></span>Photos/videos available for verification if needed</li>
+    <li><span class="check-box"></span>Consistent NAP: name, address, phone</li>
+    <li><span class="check-box"></span>Location record in Notion or internal operations tracker</li>
+    <li><span class="check-box"></span>Payer directory attestation calendar</li>
+  </ul>
+
+  <hr class="divider">
+  <h2>3. Payer Contracting — ChatGPT Detail</h2>
+
+  <p>Payers care whether a location is real, operational, associated with your TIN/NPI/group, available to patients as represented, correct in directories, and consistent across CAQH, NPPES, payer portals, claims, and your website.</p>
+
+  <h3>CAQH practice locations</h3>
+  <p>Only add a satellite site to CAQH if PsychBright can truthfully answer: "A patient can schedule an appointment associated with this location, and the practice has a real operational relationship to this site." CAQH practice location reconciliation was developed specifically because location errors are a major source of directory inaccuracies.</p>
+
+  <h3>NPPES</h3>
+  <p>NPPES distinguishes between a business mailing address and a business practice location address, and requires at least one business practice location. Do not add every marketing city to NPPES — add locations that are genuinely part of the operating footprint.</p>
+
+  <h3>Medicare / Medicare Advantage</h3>
+  <p>Having a real enrolled group/practice location helps avoid the appearance that the entire operation is floating without a physical practice base. But adding many questionable locations creates the opposite risk.</p>
+
+  <h3>Documentation packet for each site</h3>
+  <ol style="font-size:13px;">
+    <li>Lease/sublease/license agreement</li>
+    <li>Host contact name, phone, email</li>
+    <li>Mail handling instructions</li>
+    <li>Signage/directory permissions</li>
+    <li>Photos of exterior, suite door, lobby, office</li>
+    <li>Verification video permission</li>
+    <li>Hours/access schedule</li>
+    <li>Internal "patient arrival" SOP</li>
+    <li>HIPAA/privacy addendum</li>
+    <li>Certificate of insurance if required</li>
+    <li>Payer roster submission confirmation</li>
+    <li>CAQH/NPPES screenshots</li>
+    <li>GBP record if applicable</li>
+    <li>Quarterly directory attestation log</li>
+  </ol>
+
+  <hr class="divider">
+  <h2>4. Google Business Profile — ChatGPT Detail</h2>
+
+  <div class="alert">Do not assume a payer-defensible location is automatically Google-safe. A therapy-office sublease may be payer-defensible, but if no one is there during listed hours, it may still be risky for GBP.</div>
+
+  <h3>Should each location have its own GBP?</h3>
+  <p>Only if the location passes all of these:</p>
+  <ol style="font-size:13px;">
+    <li>Patients can have in-person contact during stated hours or by clearly defined appointment availability</li>
+    <li>The practice has a real right to occupy/use the space</li>
+    <li>The location can be verified by video/photo/signage/lease</li>
+    <li>The location has distinct local relevance</li>
+    <li>The location is not just a mailbox</li>
+    <li>Staff/host can verify the business</li>
+    <li>The location has unique content and operational purpose</li>
+  </ol>
+  <p><strong>Recommendation:</strong> Start with 1–3 GBP pilot locations maximum, not ten.</p>
+
+  <h3>Recommended website location page structure</h3>
+  <ol style="font-size:13px;">
+    <li><strong>Local headline</strong> — "Online Psychiatrist Serving Adults in San Diego County"</li>
+    <li><strong>Honest service model</strong> — "Most appointments are provided by secure telehealth. In-person availability, if needed, is by appointment only at designated practice locations."</li>
+    <li>Services (ADHD, depression, anxiety, bipolar, insomnia, geriatric psych, etc.)</li>
+    <li>Insurance language specific to that market</li>
+    <li>Local relevance (nearby cities, referral partners — no keyword stuffing)</li>
+    <li>Provider availability only if providers are truly available in that region</li>
+    <li>CTA: "Request an appointment online" or "Call our intake team"</li>
+    <li>FAQ (in-person visits? Medicare Advantage? scheduling timelines?)</li>
+    <li>NAP consistency — if you list an address, it must match GBP, CAQH, payer records</li>
+  </ol>
+
+  <hr class="divider">
+  <h2>5. Compliance Checklist — ChatGPT Detail</h2>
+
+  <h3>Corporate / naming issues (California-specific)</h3>
+  <p>California's Medical Board notes that a fictitious name permit allows a physician to practice under a name other than their own. Practices providing services only through telehealth using a fictitious name must post the FNP on their telehealth website or portal so patients can view it. Counsel should review: FNP/DBA structure, whether each satellite affects FNP display, local business licenses, city business tax registration, and PC address records.</p>
+
+  <h3>Telehealth consent and patient disclosures</h3>
+  <p>The Medical Board of California requires verbal and written informed consent before delivering healthcare via telemedicine, with signed written consent becoming part of the medical record. Review: telehealth consent language, website disclosures, emergency protocol by patient location, patient location verification at each visit, in-person care alternatives, and cross-state licensing if expanding beyond California.</p>
+
+  <h3>Patient arrival protocol</h3>
+  <p>Every location needs a written answer to: "What happens if a patient physically shows up?"</p>
+  <ol style="font-size:13px;">
+    <li>Host staff greets patient</li>
+    <li>Host verifies patient has appointment with PsychBright</li>
+    <li>Host does not collect clinical details</li>
+    <li>Host calls/texts PsychBright central line</li>
+    <li>VA confirms appointment</li>
+    <li>If no in-person provider is available, patient is offered telehealth support or rescheduling</li>
+    <li>Emergency concerns go to 911/crisis protocol</li>
+  </ol>
+
+  <hr class="divider">
+  <h2>6. Lean Operating Model — ChatGPT Detail</h2>
+
+  <h3>Core principle</h3>
+  <p>PsychBright should operate as a <strong>centralized virtual practice with local satellite nodes</strong>, not as a bunch of independent mini-clinics.</p>
+
+  <h3>Notion location tracker — suggested fields</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>Location Name</td><td>Title</td></tr>
+        <tr><td>County / City</td><td>Select</td></tr>
+        <tr><td>Address</td><td>Text</td></tr>
+        <tr><td>Address Type</td><td>Select</td></tr>
+        <tr><td>Status</td><td>Planning / Active / Paused / Closed</td></tr>
+        <tr><td>Payer Use / GBP Use</td><td>Yes/No</td></tr>
+        <tr><td>Lease Start / End</td><td>Date</td></tr>
+        <tr><td>Monthly Cost</td><td>Number</td></tr>
+        <tr><td>Host Contact</td><td>Text</td></tr>
+        <tr><td>Mail Workflow</td><td>Text</td></tr>
+        <tr><td>Staffed Hours</td><td>Text</td></tr>
+        <tr><td>By Appointment Only</td><td>Checkbox</td></tr>
+        <tr><td>Providers Assigned</td><td>Relation</td></tr>
+        <tr><td>Payers Submitted</td><td>Multi-select</td></tr>
+        <tr><td>CAQH Updated / NPPES Updated</td><td>Checkbox/date</td></tr>
+        <tr><td>Directory Attestation Due</td><td>Date</td></tr>
+        <tr><td>GBP Status</td><td>Draft / Verified / Suspended / Not using</td></tr>
+        <tr><td>Risk Level</td><td>Low / Medium / High</td></tr>
+        <tr><td>Documents Folder</td><td>URL</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Provider-location matrix principle</h3>
+  <p>Do not list every provider at every location. Maintain an explicit provider-location matrix with payer credentialing status per location. This prevents directory inaccuracies and payer audit exposure.</p>
+
+  <hr class="divider">
+  <h2>7. Budget and Phased Rollout — ChatGPT Detail</h2>
+
+  <h3>Recommended pilot markets</h3>
+  <ol style="font-size:13px;">
+    <li><strong>Orange County / Irvine / Newport / Anaheim</strong> — Good commercial/Medicare Advantage mix, strong demographics, manageable distance</li>
+    <li><strong>San Diego / North County or central San Diego</strong> — Strong healthcare market, underserved psychiatry pockets</li>
+    <li><strong>Inland Empire / Riverside / Corona / Ontario</strong> — Access shortage, lower office costs, payer-network need</li>
+  </ol>
+
+  <h3>One-time costs per site</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Item</th><th>Range</th></tr></thead>
+      <tbody>
+        <tr><td>Legal review</td><td>$500–$1,500</td></tr>
+        <tr><td>Setup/admin time</td><td>$300–$1,000 internal equivalent</td></tr>
+        <tr><td>Signage/directory materials</td><td>$50–$500</td></tr>
+        <tr><td>Website location page</td><td>$250–$1,000</td></tr>
+        <tr><td>Photos/video</td><td>$0–$500</td></tr>
+        <tr><td>Credentialing/admin updates</td><td>$250–$1,000</td></tr>
+        <tr><td><strong>Total per site</strong></td><td><strong>~$1,350–$5,500</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Timeline per location</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Workstream</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>Find location</td><td>2–6 weeks</td></tr>
+        <tr><td>Lease/legal</td><td>1–3 weeks</td></tr>
+        <tr><td>CAQH/NPPES/payer updates</td><td>30–120 days</td></tr>
+        <tr><td>GBP verification</td><td>1–6 weeks, if eligible</td></tr>
+        <tr><td>SEO indexing</td><td>1–3 months</td></tr>
+        <tr><td>Referral traction</td><td>3–6 months</td></tr>
+        <tr><td>Payer contracting impact</td><td>3–12 months</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Phase 2 — Standardize before scaling</h3>
+  <p>Before adding more sites, standardize: lease template, location launch checklist, payer update SOP, CAQH/NPPES SOP, GBP eligibility checklist, website page template, VA call script, mail handling SOP, host-office onboarding packet, and quarterly directory audit process.</p>
+
+  <h3>Phase 3 — Location governance system</h3>
+  <p><strong>Monthly:</strong> Review new patient volume, calls by local number, payer directory issues, GBP status, SEO page traffic, mail logs, host issues.</p>
+  <p><strong>Quarterly:</strong> CAQH/payer directory attestation, provider roster cleanup, lease renewal review, Google review audit, website accuracy check.</p>
+  <p><strong>Annually:</strong> ROI per location, close weak locations, upgrade high-performing ones, renegotiate host partnerships, compliance review with counsel.</p>
+
+  <hr class="divider">
+  <h2>8. Do / Don't</h2>
+  <div class="do-dont">
+    <div class="do-box">
+      <h4>Do</h4>
+      <ul>
+        <li>Use real therapy/medical offices</li>
+        <li>Keep leases simple but explicit</li>
+        <li>Match online hours to reality</li>
+        <li>Train host staff</li>
+        <li>Maintain a documentation packet</li>
+        <li>Add locations slowly</li>
+        <li>Keep provider rosters accurate</li>
+        <li>Build strong local pages</li>
+        <li>Use "online psychiatry serving [county]" when appropriate</li>
+        <li>Track ROI per location</li>
+        <li>Review with healthcare counsel</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <h4>Don't</h4>
+      <ul>
+        <li>Use mailbox-only locations</li>
+        <li>Create 20 GBPs quickly</li>
+        <li>Use virtual offices as fake clinics</li>
+        <li>List hours when nobody is there</li>
+        <li>Add every provider to every location</li>
+        <li>Tell patients there is a clinic when there is not</li>
+        <li>Build duplicate city pages</li>
+        <li>Ignore payer directory attestations</li>
+        <li>Let host staff mishandle PHI</li>
+        <li>Pay referral sources in a way that looks like referral compensation</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h2>9. Templates — ChatGPT Versions</h2>
+
+  <h3>Outreach email: therapy/medical office sublease</h3>
+  <div class="template-box">Subject: Part-time office sublease inquiry for psychiatry practice
+
+Hi [Name],
+
+I'm reaching out on behalf of PsychBright Health, a California-based psychiatry practice. We are looking for a small, professional office arrangement in [City/Area] that we can use primarily for administrative work, telehealth support, and occasional patient or provider meetings by appointment.
+
+We are not looking to operate a full clinic. Ideally, we would like a part-time sublease or license arrangement for a private office in a healthcare or therapy setting, with the ability to receive mail and list the address as a practice location where appropriate.
+
+A good fit would include:
+- Private office access on a recurring schedule
+- Waiting room access if needed
+- Permission to receive mail
+- Permission to use the address for practice-location purposes
+- Clear access hours
+- Ability to place a small directory listing or signage if allowed
+- HIPAA-conscious environment
+
+Please let me know if you have availability or would be open to discussing a simple monthly arrangement.
+
+Best,
+[Name]
+PsychBright Health
+[Phone]
+[Website]</div>
+
+  <h3>Outreach email: PCP or therapy group host-office partnership</h3>
+  <div class="template-box">Subject: Potential office-sharing and psychiatry referral support partnership
+
+Hi Dr. [Name],
+
+I'm with PsychBright Health, a California psychiatry group providing mostly telehealth-based psychiatric evaluations, medication management, and therapy services.
+
+We are exploring a small local presence in [City/Area] and wanted to see if your office might be open to a host-office arrangement. The idea would be simple: PsychBright would lease or license limited use of a private office for administrative work, telehealth support, and occasional patient/provider meetings by appointment.
+
+This would not require your team to manage our patients clinically. Our central intake team would handle scheduling, insurance verification, calls, and follow-up. We would also be happy to serve as a psychiatry access resource for appropriate patients from your practice, with no referral obligation.
+
+We would want the arrangement documented clearly, commercially reasonable, and compliant.
+
+Would you be open to a brief call to discuss whether this could be a fit?
+
+Best,
+[Name]</div>
+
+  <h3>Lease/sublease checklist</h3>
+  <ul class="checklist" style="font-size:13px;">
+    <li><span class="check-box"></span>Exact address and suite number</li>
+    <li><span class="check-box"></span>PsychBright legal name and DBA/FNP name</li>
+    <li><span class="check-box"></span>Permitted use includes medical/psychiatric administrative work and telehealth</li>
+    <li><span class="check-box"></span>Occasional patient visits by appointment allowed</li>
+    <li><span class="check-box"></span>Mail receipt allowed</li>
+    <li><span class="check-box"></span>Address listing with payers/CAQH/NPPES allowed</li>
+    <li><span class="check-box"></span>Website listing allowed</li>
+    <li><span class="check-box"></span>Google verification/photo/video access allowed if applicable</li>
+    <li><span class="check-box"></span>Signage or directory listing allowed</li>
+    <li><span class="check-box"></span>Access days/hours defined</li>
+    <li><span class="check-box"></span>Internet access included</li>
+    <li><span class="check-box"></span>Privacy expectations documented</li>
+    <li><span class="check-box"></span>No PHI handling by host unless separately agreed</li>
+    <li><span class="check-box"></span>Insurance requirements listed</li>
+    <li><span class="check-box"></span>Termination rights clear</li>
+    <li><span class="check-box"></span>Sublease complies with master lease</li>
+    <li><span class="check-box"></span>Rent is commercially reasonable</li>
+    <li><span class="check-box"></span>No referral requirement or referral-based compensation</li>
+  </ul>
+
+  <h3>Sample lease language (for counsel to refine)</h3>
+  <div class="template-box"><strong>Practice location use:</strong>
+Licensor grants PsychBright Health the right to use the premises located at [Address/Suite] as a part-time professional healthcare practice location for administrative work, telehealth services, provider meetings, care coordination, and occasional patient appointments by prior arrangement.
+
+<strong>Address use:</strong>
+PsychBright Health may use the premises address as a practice location for payer credentialing, provider directories, CAQH, NPPES, business correspondence, website listings, and other healthcare administrative purposes, provided such use remains consistent with applicable law and the terms of this agreement.
+
+<strong>Mail:</strong>
+PsychBright Health may receive business mail at the premises. Licensor will hold mail in a secure location and notify PsychBright Health of received mail according to the agreed mail-handling procedure.
+
+<strong>Signage/directory:</strong>
+PsychBright Health may place a reasonable suite directory listing, door placard, or other mutually approved signage identifying PsychBright Health as a practice using the premises by appointment.
+
+<strong>HIPAA/privacy:</strong>
+The parties agree to maintain reasonable privacy safeguards. Licensor will not access, request, store, or disclose PsychBright Health patient information unless separately authorized in writing and subject to any required business associate agreement.
+
+<strong>No referral requirement:</strong>
+The parties acknowledge that rent is commercially reasonable and not conditioned on, related to, or intended to induce referrals between the parties.</div>
+
+  <hr class="divider">
+  <h2>10. Decision Tree — Final Operating Posture</h2>
+  <div class="decision-tree">
+    <table>
+      <thead><tr><th>Question</th><th>If yes</th><th>If no</th></tr></thead>
+      <tbody>
+        <tr><td>Is it a real healthcare/private office?</td><td>Continue</td><td>Do not use</td></tr>
+        <tr><td>Is there written address-use permission?</td><td>Continue</td><td>Do not use</td></tr>
+        <tr><td>Can mail be received?</td><td>Continue</td><td>Do not use for payer location</td></tr>
+        <tr><td>Can a patient be handled by appointment?</td><td>Payer-defensible</td><td>Admin-only at best</td></tr>
+        <tr><td>Is it staffed or truly patient-facing during listed hours?</td><td>Consider GBP</td><td>Avoid GBP</td></tr>
+        <tr><td>Can host verify PsychBright's presence?</td><td>Continue</td><td>Risky</td></tr>
+        <tr><td>Are providers actually assigned there?</td><td>Add to payer roster</td><td>Do not roster broadly</td></tr>
+        <tr><td>Is there unique local value?</td><td>Build location page</td><td>Use broader service-area page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="gpt-note"><strong>Final operating posture:</strong> Use real healthcare office subleases for payer trust and legitimacy. Use GBP only where the location is genuinely patient-facing. Use SEO location pages broadly but honestly. Scale only after the first sites survive payer updates, Google verification, and 90–180 days of operational use.</div>
+
+  <p class="footnote">This response was generated by ChatGPT and includes citations to Google Help, CMS, NPPES, CAQH, DHCS, Medical Board of California, and other sources. Verify all cited guidance directly with the relevant authorities and review with qualified healthcare counsel before acting.</p>
+</div>
+
+<script>
+  function show(idx) {
+    document.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx));
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  }
+</script>
+
+</body>
+</html>

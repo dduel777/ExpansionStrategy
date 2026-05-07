@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PsychBright — Growth Strategy & Competitive Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0f0f;
+  --ink-2: #3a3a3a;
+  --ink-3: #6b6b6b;
+  --ink-4: #9a9a9a;
+  --bg: #faf9f7;
+  --bg-2: #f3f1ee;
+  --bg-3: #eceae5;
+  --rule: #dedad4;
+  --accent: #1a4a3a;
+  --accent-light: #e8f0ec;
+  --accent-mid: #2d6b55;
+  --warn: #7a3a1a;
+  --warn-light: #f5ede6;
+  --info: #1a3a5c;
+  --info-light: #e6eef5;
+  --green-light: #eaf4ee;
+  --green-dark: #1c5c35;
+  --red-light: #faeaea;
+  --red-dark: #8b2020;
+  --amber-light: #faf0e0;
+  --amber-dark: #7a4f10;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.65; font-weight: 300; }
+
+.page-wrap { max-width: 960px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+/* MASTHEAD */
+.masthead { border-bottom: 1px solid var(--rule); padding: 3rem 0 2.5rem; margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; }
+.masthead-left h1 { font-family: var(--serif); font-size: 2.6rem; font-weight: 400; line-height: 1.1; color: var(--ink); margin-bottom: 0.5rem; }
+.masthead-left h1 em { font-style: italic; color: var(--accent-mid); }
+.masthead-left p { font-size: 0.875rem; color: var(--ink-3); letter-spacing: 0.03em; }
+.masthead-right { text-align: right; font-size: 0.75rem; color: var(--ink-4); line-height: 1.8; flex-shrink: 0; }
+.masthead-right strong { color: var(--ink-3); font-weight: 500; }
+
+/* BASELINE STATS BAR */
+.baseline-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-bottom: 3rem; background: white; }
+.bl-stat { padding: 1rem 1.1rem; border-right: 1px solid var(--rule); }
+.bl-stat:last-child { border-right: none; }
+.bl-label { font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 4px; }
+.bl-val { font-size: 1.3rem; font-weight: 500; color: var(--ink); line-height: 1.1; }
+.bl-sub { font-size: 0.7rem; color: var(--ink-3); margin-top: 2px; }
+
+/* NAV */
+.nav-strip { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin-bottom: 3rem; background: white; }
+.nav-btn { flex: 1; padding: 0.75rem 0.5rem; font-family: var(--sans); font-size: 0.75rem; font-weight: 400; color: var(--ink-3); background: white; border: none; border-right: 1px solid var(--rule); cursor: pointer; transition: all 0.15s; text-align: center; letter-spacing: 0.02em; }
+.nav-btn:last-child { border-right: none; }
+.nav-btn:hover { background: var(--bg-2); color: var(--ink); }
+.nav-btn.active { background: var(--accent); color: white; font-weight: 500; }
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* STRATEGY */
+.strategy-intro { background: var(--accent); color: white; border-radius: 12px; padding: 2rem 2.5rem; margin-bottom: 2.5rem; }
+.strategy-intro .eyebrow { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.75rem; }
+.strategy-intro h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; line-height: 1.25; margin-bottom: 1rem; color: white; }
+.strategy-intro p { font-size: 0.9rem; opacity: 0.85; line-height: 1.7; }
+
+.current-state { border: 1px solid var(--rule); border-radius: 12px; background: white; overflow: hidden; margin-bottom: 2rem; }
+.cs-header { background: var(--bg-2); padding: 1rem 1.5rem; border-bottom: 1px solid var(--rule); }
+.cs-header h3 { font-family: var(--serif); font-size: 1rem; font-weight: 400; color: var(--ink); }
+.cs-header p { font-size: 0.78rem; color: var(--ink-3); margin-top: 2px; }
+.cs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.cs-col { padding: 1.25rem 1.5rem; border-right: 1px solid var(--rule); }
+.cs-col:last-child { border-right: none; }
+.cs-col-title { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 0.75rem; }
+.cs-item { font-size: 0.8rem; color: var(--ink-2); padding: 0.3rem 0; border-bottom: 1px solid var(--bg-3); line-height: 1.5; display: flex; gap: 0.5rem; align-items: flex-start; }
+.cs-item:last-child { border-bottom: none; }
+.cs-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 0.45rem; }
+.cs-dot-green { background: var(--green-dark); }
+.cs-dot-amber { background: var(--amber-dark); }
+.cs-dot-ink { background: var(--ink-3); }
+
+/* PHASE BLOCKS */
+.phase-block { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+.phase-header { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.75rem; cursor: pointer; background: white; transition: background 0.12s; user-select: none; }
+.phase-header:hover { background: var(--bg-2); }
+.phase-tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; flex-shrink: 0; }
+.p1-tag { background: var(--info-light); color: var(--info); }
+.p2-tag { background: var(--accent-light); color: var(--accent); }
+.p3-tag { background: var(--amber-light); color: var(--amber-dark); }
+.p4-tag { background: #f0e8f8; color: #4a1a7a; }
+.phase-title { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--ink); flex: 1; }
+.phase-meta { font-size: 0.75rem; color: var(--ink-4); flex-shrink: 0; }
+.phase-chevron { width: 18px; height: 18px; color: var(--ink-4); transition: transform 0.2s; flex-shrink: 0; }
+.phase-block.open .phase-chevron { transform: rotate(180deg); }
+.phase-body { display: none; padding: 0 1.75rem 1.75rem; background: white; border-top: 1px solid var(--rule); }
+.phase-block.open .phase-body { display: block; }
+.phase-body h4 { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-4); margin: 1.25rem 0 0.6rem; }
+.phase-body h4:first-child { margin-top: 1.25rem; }
+
+.action-list { list-style: none; }
+.action-list li { font-size: 0.875rem; color: var(--ink-2); padding: 0.45rem 0; border-bottom: 1px solid var(--bg-3); display: flex; gap: 0.75rem; align-items: flex-start; line-height: 1.55; }
+.action-list li:last-child { border-bottom: none; }
+.action-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-mid); flex-shrink: 0; margin-top: 0.55rem; }
+
+.callout { border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.85rem; line-height: 1.65; }
+.callout strong { font-weight: 500; }
+.callout-warn { background: var(--warn-light); color: var(--warn); border-left: 3px solid var(--warn); border-radius: 0 8px 8px 0; }
+.callout-green { background: var(--green-light); color: var(--green-dark); border-left: 3px solid var(--green-dark); border-radius: 0 8px 8px 0; }
+.callout-info { background: var(--info-light); color: var(--info); border-left: 3px solid var(--info); border-radius: 0 8px 8px 0; }
+
+.capacity-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 0.75rem 0; }
+.capacity-table th { text-align: left; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-4); padding: 6px 10px; border-bottom: 1px solid var(--rule); }
+.capacity-table td { padding: 8px 10px; border-bottom: 1px solid var(--bg-3); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
+.capacity-table tr:last-child td { border-bottom: none; }
+.capacity-table td strong { color: var(--ink); font-weight: 500; }
+
+.quality-floor { background: var(--ink); color: white; border-radius: 12px; padding: 2rem 2.5rem; margin: 2rem 0; }
+.quality-floor .eyebrow { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; margin-bottom: 0.75rem; }
+.quality-floor h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 1.25rem; line-height: 1.25; }
+.floor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+.floor-item { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 1rem 1.1rem; }
+.floor-item .fi-label { font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.55; margin-bottom: 0.4rem; }
+.floor-item .fi-rule { font-size: 0.875rem; line-height: 1.55; opacity: 0.9; }
+.floor-item .fi-rule strong { opacity: 1; font-weight: 500; }
+
+.risk-block { border: 1px solid #c5a080; background: #fdf6ef; border-radius: 12px; padding: 1.5rem 2rem; margin: 2rem 0; }
+.risk-block .rb-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warn); font-weight: 500; margin-bottom: 0.5rem; }
+.risk-block h3 { font-family: var(--serif); font-size: 1.2rem; color: var(--warn); font-weight: 400; margin-bottom: 0.75rem; }
+.risk-block p { font-size: 0.875rem; color: #5a3020; line-height: 1.7; }
+
+/* COMPETITORS */
+.you-block { background: var(--accent); border-radius: 12px; padding: 1.5rem; color: white; margin-bottom: 1rem; }
+.you-block .eyebrow { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; margin-bottom: 0.5rem; }
+.you-block h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.5rem; }
+.you-block p { font-size: 0.85rem; opacity: 0.85; }
+.anchor-box { background: white; border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; }
+.anchor-box .eyebrow { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.5rem; }
+.anchor-box p { font-size: 0.8rem; color: var(--ink-2); line-height: 1.6; }
+.comp-intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+.tier-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); font-weight: 500; margin-bottom: 0.75rem; margin-top: 2rem; }
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0.5rem; }
+
+.comp-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: white; cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s; }
+.comp-card:hover { border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.comp-card.open { border-color: var(--accent-mid); box-shadow: 0 2px 12px rgba(26,74,58,0.1); }
+.comp-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 0.5rem; }
+.comp-name { font-size: 0.925rem; font-weight: 500; color: var(--ink); }
+.comp-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 99px; white-space: nowrap; font-weight: 400; }
+.b-target { background: var(--amber-light); color: var(--amber-dark); }
+.b-ca { background: var(--green-light); color: var(--green-dark); }
+.b-reg { background: var(--info-light); color: var(--info); }
+.comp-sub { font-size: 0.775rem; color: var(--ink-3); line-height: 1.55; }
+.comp-sub strong { color: var(--ink-2); font-weight: 500; }
+
+.comp-detail { display: none; border: 1px solid var(--accent-mid); border-radius: 10px; background: white; margin-bottom: 1rem; overflow: hidden; }
+.comp-detail.open { display: block; }
+.cd-header { background: var(--accent); padding: 1.1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+.cd-header h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: white; }
+.cd-close { background: rgba(255,255,255,0.15); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
+.cd-close:hover { background: rgba(255,255,255,0.25); }
+.cd-metrics { display: flex; gap: 0; border-bottom: 1px solid var(--rule); }
+.cd-metric { flex: 1; padding: 0.875rem 1.25rem; border-right: 1px solid var(--rule); }
+.cd-metric:last-child { border-right: none; }
+.cd-metric .m-lbl { font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 3px; }
+.cd-metric .m-val { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+.cd-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--rule); background: var(--bg-2); }
+.cd-tab { flex: 1; padding: 0.7rem 0.5rem; font-size: 0.75rem; font-weight: 400; color: var(--ink-3); background: transparent; border: none; border-right: 1px solid var(--rule); cursor: pointer; text-align: center; transition: all 0.12s; font-family: var(--sans); }
+.cd-tab:last-child { border-right: none; }
+.cd-tab:hover { background: var(--bg-3); color: var(--ink); }
+.cd-tab.active { background: white; color: var(--accent); font-weight: 500; }
+.cd-body { padding: 1.25rem 1.5rem; }
+.ct-panel { display: none; }
+.ct-panel.active { display: block; }
+
+.rg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rg-do { background: var(--green-light); border-radius: 8px; padding: 1rem 1.1rem; }
+.rg-skip { background: var(--red-light); border-radius: 8px; padding: 1rem 1.1rem; }
+.rg-lbl { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.6rem; }
+.rg-do .rg-lbl { color: var(--green-dark); }
+.rg-skip .rg-lbl { color: var(--red-dark); }
+.rg-item { font-size: 0.8rem; color: var(--ink-2); padding: 0.3rem 0; line-height: 1.5; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.rg-item:last-child { border-bottom: none; }
+
+.weakness-item, .diff-item { border: 1px solid var(--rule); border-radius: 8px; padding: 0.875rem 1.1rem; margin-bottom: 8px; background: white; }
+.wi-tag, .di-tag { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.35rem; }
+.wi-tag { color: var(--warn); }
+.di-tag { color: var(--accent); }
+.wi-text, .di-text { font-size: 0.82rem; color: var(--ink-2); line-height: 1.6; }
+.cd-note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: 0.8rem; color: var(--ink-3); line-height: 1.65; }
+.cd-note strong { color: var(--ink-2); font-weight: 500; }
+
+.doc-footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-size: 0.75rem; color: var(--ink-4); display: flex; justify-content: space-between; }
+
+@media (max-width: 640px) {
+  .masthead { flex-direction: column; align-items: flex-start; }
+  .masthead-right { text-align: left; }
+  .baseline-bar { grid-template-columns: 1fr 1fr; }
+  .nav-strip { flex-wrap: wrap; }
+  .nav-btn { flex: 1 1 45%; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .comp-grid, .floor-grid, .rg-grid, .cs-grid, .comp-intro-grid { grid-template-columns: 1fr; }
+  .cd-metrics { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-left">
+    <h1>PsychBright <em>Health</em><br>Growth Strategy</h1>
+    <p>Competitive intelligence · Expansion playbook · Quality floor · v2 — calibrated to current state</p>
+  </div>
+  <div class="masthead-right">
+    <strong>Prepared for</strong><br>
+    Dr. Daniel Duel, MD<br>
+    CEO & Chief Medical Officer<br>
+    PsychBright Health<br><br>
+    <strong>May 2026</strong>
+  </div>
+</div>
+
+<!-- BASELINE STATS BAR -->
+<div class="baseline-bar">
+  <div class="bl-stat">
+    <div class="bl-label">Providers</div>
+    <div class="bl-val">~15</div>
+    <div class="bl-sub">3 MD · 3 therapists · 9 NPs, mostly part-time</div>
+  </div>
+  <div class="bl-stat">
+    <div class="bl-label">Monthly encounters</div>
+    <div class="bl-val">900</div>
+    <div class="bl-sub">60 avg per provider per month</div>
+  </div>
+  <div class="bl-stat">
+    <div class="bl-label">Payer coverage</div>
+    <div class="bl-val">CA-wide</div>
+    <div class="bl-sub">All major commercial + most MA. Gaps: Humana MA, Medi-Cal</div>
+  </div>
+  <div class="bl-stat">
+    <div class="bl-label">Visit model</div>
+    <div class="bl-val">60 / 30→20</div>
+    <div class="bl-sub">1-hr intakes · 30-min follow-ups → 20-min for experienced providers</div>
+  </div>
+  <div class="bl-stat">
+    <div class="bl-label">Expansion driver</div>
+    <div class="bl-val">SEO + PCP</div>
+    <div class="bl-sub">Payer contracts already statewide — physical nodes are marketing infrastructure</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-strip">
+  <button class="nav-btn active" onclick="showSection('strategy')">Growth Strategy</button>
+  <button class="nav-btn" onclick="showSection('competitors')">Competitor Intelligence</button>
+</div>
+
+<!-- ═══════════════ STRATEGY ═══════════════ -->
+<div class="section active" id="s-strategy">
+
+  <div class="strategy-intro">
+    <div class="eyebrow">Starting position — stronger than the document implied</div>
+    <h2>You are not building from scratch. You are scaling a working platform.</h2>
+    <p>With 15 providers, 900 monthly encounters, statewide payer contracts, and a Beverly Hills clinical identity already established, PsychBright is several years ahead of where the original document assumed. The growth strategy changes accordingly. The three biggest strategic assets you already have — that every competitor either never had or destroyed through scaling — are your statewide payer infrastructure, your psychiatrist-led clinical identity, and your current absence of the operational dysfunction that defines your competitors. The job now is to scale without losing the last one.</p>
+  </div>
+
+  <!-- CURRENT STATE SNAPSHOT -->
+  <div class="current-state">
+    <div class="cs-header">
+      <h3>Current state: what you have, what's missing, what needs protecting</h3>
+      <p>Assets inform the growth path. Gaps define the priority order. Risks define the guardrails.</p>
+    </div>
+    <div class="cs-grid">
+      <div class="cs-col">
+        <div class="cs-col-title">Established assets</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>Statewide commercial payer contracts under group TIN</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>Near-complete Medicare Advantage coverage (gap: Humana)</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>15 providers across 3 clinical tiers (MD, NP, therapist)</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>900 encounters/month — established clinical volume</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>Beverly Hills HQ — premium brand positioning built in</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-green"></span>Valant EHR, GoHighLevel, Zoom Phone, VA team — full ops stack</div>
+      </div>
+      <div class="cs-col">
+        <div class="cs-col-title">Active gaps to close</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-amber"></span>Humana Medicare Advantage — high CA market share, worth prioritizing</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-amber"></span>Medi-Cal — strategic decision pending (high volume, complex ops)</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-amber"></span>Local GBP listings outside Beverly Hills — zero local SEO footprint in target CA markets</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-amber"></span>PCP referral relationships — no systematic outreach program in place</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-amber"></span>Provider capacity headroom — 900 encounters/month with 15 part-time providers leaves significant growth runway without new hires</div>
+      </div>
+      <div class="cs-col">
+        <div class="cs-col-title">Quality signals to protect</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-ink"></span>60-minute intakes — do not compress this under volume pressure</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-ink"></span>20-min follow-ups only for experienced providers at appropriate acuity — not a blanket default for all providers or all patients</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-ink"></span>Provider-patient continuity — same prescriber over time, no shuffling under growth pressure</div>
+        <div class="cs-item"><span class="cs-dot cs-dot-ink"></span>Billing responsiveness — no-surprise-charge culture before you have the volume where it becomes hard to maintain</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-block" id="pb-1">
+    <div class="phase-header" onclick="togglePhase('pb-1')">
+      <span class="phase-tag p1-tag">Phase 1</span>
+      <span class="phase-title">Fill Current Capacity Before Adding Overhead</span>
+      <span class="phase-meta">Now → Month 6</span>
+      <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="phase-body">
+      <div class="callout callout-green"><strong>Key insight:</strong> At 900 encounters/month across ~15 mostly part-time providers, there is almost certainly significant unused capacity in your existing provider base before you need to hire. Filling that capacity costs near zero overhead. Adding a new sublease location before you know your actual capacity ceiling means adding fixed costs prematurely.</div>
+
+      <h4>Understand Your Real Capacity Ceiling First</h4>
+      <ul class="action-list">
+        <li>Run a provider-level capacity audit in Valant: for each provider, calculate scheduled hours vs. available hours vs. actual encounters last 90 days. This tells you exactly how much volume the current team can absorb before you need more providers or more locations.</li>
+        <li>Part-time providers with open schedule slots are your cheapest growth lever. Convert 3–4 part-timers to higher utilization before adding headcount. A provider seeing 8 patients/week who could see 14 is a significant revenue gap that costs you nothing to close.</li>
+      </ul>
+
+      <div class="callout callout-info"><strong>Capacity math benchmark:</strong> A full-time NP running 8 clinical hrs/day with 30-min follow-ups and 1-hr intakes, at a 70% intake / 30% follow-up mix in a ramp phase, can handle roughly 12–14 encounters/day = ~250/month. At steady state with mostly follow-ups (20–30 min), closer to 300–350/month. Your 900 encounters across 15 part-time providers suggests average utilization of ~60 encounters/month — well below any full-time ceiling. Utilization optimization is the Phase 1 growth lever.</div>
+
+      <h4>Close the Humana MA Gap</h4>
+      <ul class="action-list">
+        <li>Humana Medicare Advantage has significant CA market share, particularly in SoCal and among the 65+ demographic — a high-value patient segment for outpatient psychiatry. Getting in-network should be a near-term priority alongside sublease expansion.</li>
+        <li>Contact Humana provider relations directly. Have your group NPI, TIN, existing payer contract list, and CAQH attestation current before the call. Credentialing timeline: typically 90–120 days from application.</li>
+      </ul>
+
+      <h4>The Medi-Cal Decision</h4>
+      <ul class="action-list">
+        <li>Medi-Cal is a strategic fork, not a simple gap to close. It brings high volume and access mission — but also lower reimbursement (typically 40–60% of commercial rates for psychiatry), complex billing workflows, and a different patient acuity profile that can strain clinical operations if not structured separately.</li>
+        <li>The right question is not "should we take Medi-Cal" but "can we operationally ring-fence Medi-Cal capacity without it degrading the commercial patient experience?" Some groups run a separate Medi-Cal clinic track. Others reserve a fixed % of slots. Do not mix it into general scheduling without a deliberate structure.</li>
+        <li>Recommend: defer Medi-Cal enrollment until Phase 2 infrastructure is in place and you have a clear capacity buffer to absorb the operational load.</li>
+      </ul>
+
+      <h4>Patient Retention and No-Show Optimization</h4>
+      <ul class="action-list">
+        <li>Before any marketing spend to drive new intakes, audit your current retention rate: what % of patients who complete an intake return for a 90-day follow-up? Industry average for telehealth psychiatry is 55–65%. A rate below that means you are filling a leaky bucket — new patients are replacing churned patients rather than growing the panel.</li>
+        <li>In GoHighLevel: set up automated appointment reminders at 72 hours and 24 hours before follow-up visits. This alone typically reduces no-show rates by 20–35% without changing anything clinical.</li>
+        <li>In Valant: flag patients with a lapsed recall interval (no appointment in 90+ days after a prior visit). These are warm patients who likely still need care — a simple outreach campaign through GoHighLevel can reactivate them with minimal effort.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-block" id="pb-2">
+    <div class="phase-header" onclick="togglePhase('pb-2')">
+      <span class="phase-tag p2-tag">Phase 2</span>
+      <span class="phase-title">Build the Local Footprint — SEO and PCP Infrastructure</span>
+      <span class="phase-meta">Months 3–12</span>
+      <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="phase-body">
+      <div class="callout callout-info"><strong>Critical reframe from the original document:</strong> Because your payer contracts already cover all of California statewide, sublease nodes are not about unlocking credentialing access. They are marketing infrastructure — specifically, the physical address required to claim a Google Business Profile listing and the local presence that gives PCPs a "home" to refer to. The ROI metric is not "payer activation" but "local search ranking and referral relationship maturation," which takes 3–6 months per market.</div>
+
+      <h4>Target Market Selection — Where to Plant Nodes First</h4>
+      <ul class="action-list">
+        <li><strong>Orange County (Irvine / Newport Beach):</strong> High commercial insurance density, strong Medicare Advantage penetration, affluent demographics that match your premium positioning, manageable distance from Beverly Hills HQ for occasional in-person.</li>
+        <li><strong>San Diego (North County or Central):</strong> Large psychiatry-underserved population, strong PCP referral ecosystem, high concentrations of military families and veterans — PTSD and adjustment disorder are high-volume service lines you can serve.</li>
+        <li><strong>Inland Empire (Riverside / Corona / Ontario):</strong> Access shortage market, lower office costs for subleases, large commercial insurance population, less competitive for psychiatry than LA/OC.</li>
+        <li>Sequence: OC first (easiest to manage from BH, highest commercial density), then SD, then IE. One new location per 6–8 weeks maximum to allow GBP verification and initial PCP outreach to stabilize before adding another.</li>
+      </ul>
+
+      <h4>Sublease Node Setup — Revised Checklist</h4>
+      <ul class="action-list">
+        <li>Sublease signed (therapy or psych group preferred; medical office second) → NPPES secondary location added → CAQH practice location updated → Payer directory location addition submitted (required even with statewide contracts — directory presence by city is what drives local search visibility) → Valant location added → Zoom DID assigned ($5/mo) → Gmail alias created → GBP listing claimed → Location page live on website with 300–500 words unique local content.</li>
+        <li>GBP is your single most important SEO deliverable per node. The listing must show the physical address, have a local phone number, be verified by postcard or video, and have defined hours that match actual sublease access. Do not rush this — a suspended GBP takes weeks to recover.</li>
+        <li>Stagger GBP listings at least 2–3 weeks apart. Google flags accounts that create multiple new healthcare listings rapidly.</li>
+      </ul>
+
+      <h4>PCP Referral Program — Systematize Before You Scale It</h4>
+      <ul class="action-list">
+        <li>For each new sublease market, build a target list of 15–20 primary care practices within 5 miles. Your VA team can pull these from Healthgrades, Zocdoc provider search, and Google Maps in 2–3 hours per market.</li>
+        <li>The referral pitch is simple and must be deliverable: "We accept your patients' insurance, we respond to referrals within 48 hours, and you'll receive a consult note within 5 business days of the first appointment." This is the promise most CA psychiatry groups cannot make. If you can make it and consistently deliver it, you will own those referral relationships.</li>
+        <li>Track referral sources in GoHighLevel. Tag every new patient intake with a referral source. This tells you which PCPs are converting referrals and which markets have the strongest PCP pipeline — informing where to open the next node.</li>
+        <li>Consider a quarterly PCP outreach mailer per market: a single-page clinical update (not marketing collateral — an actual clinical communication about what conditions you treat, what your intake process looks like, and how to refer). This is what builds referring relationships with physicians, not flyers.</li>
+      </ul>
+
+      <h4>Location Page Strategy — Avoid Foresight's Mistake</h4>
+      <ul class="action-list">
+        <li>Each city page needs 300–500 words of genuinely unique content. City-name swaps in a template are penalized by Google as doorway pages. Content should reference local community context, specific payer plans available in that county, nearby landmarks or hospitals PCPs would recognize, and local FAQ (e.g., "Do you accept Blue Shield Promise in Riverside County?").</li>
+        <li>Every page needs a consistent NAP (Name, Address, Phone) that exactly matches GBP, NPPES, and any payer directory listing. A single character difference between these sources is enough to suppress local search rankings.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-block" id="pb-3">
+    <div class="phase-header" onclick="togglePhase('pb-3')">
+      <span class="phase-tag p3-tag">Phase 3</span>
+      <span class="phase-title">Provider Growth — Hire Into Proven Markets</span>
+      <span class="phase-meta">Months 9–18</span>
+      <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="phase-body">
+      <div class="callout callout-warn"><strong>Sequence matters:</strong> Hire after you have demonstrated patient demand in a market — not before. Every competitor that scaled too fast hired ahead of volume and ended up with underutilized providers, low morale, and either forced churn or unsustainable overhead. Your sublease nodes generate the referral traffic and local search volume that proves market demand. Then you hire to meet it.</div>
+
+      <h4>Provider Capacity Model — Replace the 90-Patient Cap With a Formula</h4>
+      <p style="font-size:0.875rem;color:var(--ink-2);margin-bottom:0.75rem;">The right guardrail is not a fixed panel cap — it's a capacity ratio tied to hours worked and recall interval. Use this framework per provider:</p>
+      <table class="capacity-table">
+        <thead>
+          <tr><th>Provider type</th><th>Clinical hrs/week</th><th>Avg recall interval</th><th>Sustainable panel size</th><th>Quality warning signal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>FT NP / MD</strong> (40 hrs)</td><td>28–32 clinical</td><td>6 weeks avg</td><td>250–350 active patients</td><td>No-show rate &gt;20%, or recall intervals slipping beyond 10 weeks</td></tr>
+          <tr><td><strong>PT NP / MD</strong> (20 hrs)</td><td>14–16 clinical</td><td>6 weeks avg</td><td>120–175 active patients</td><td>Same signals; adjust proportionally</td></tr>
+          <tr><td><strong>PT NP / MD</strong> (10 hrs)</td><td>7–8 clinical</td><td>6 weeks avg</td><td>60–85 active patients</td><td>Watch for compressed follow-up scheduling as the leading indicator</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-info"><strong>The real quality metric to track is not panel size — it's recall interval drift.</strong> When a provider's average time between patient visits starts stretching beyond what's clinically appropriate (e.g., a stable patient on maintenance meds going from 8-week to 14-week follow-ups because the schedule is full), that's the overload signal. Build this as a Valant report.</div>
+
+      <h4>Who to Hire — Target the Competitor Attrition Pool</h4>
+      <ul class="action-list">
+        <li><strong>From Mindpath:</strong> Experienced CA-licensed NPs and MDs leaving due to high caseload pressure, metric-driven culture, and clunky EHR. They want a group where admin is handled, panels are managed sanely, and they can actually practice psychiatry. PsychBright's Valant + VA admin model is the answer.</li>
+        <li><strong>From LifeStance:</strong> Providers frustrated by high churn, clinician reassignments, and patient continuity failures. They want to build long-term patient relationships. That's structurally possible at PsychBright's scale in a way it isn't at LifeStance's 7,000-provider network.</li>
+        <li><strong>From Geode:</strong> Providers who took a PE-backed role for the pay and left because of the factory-cadence culture. They have good clinical skills and are actively looking for a group that operates differently.</li>
+        <li>Recruiting pitch: "Established platform. Statewide payer contracts already in place — you start seeing patients with insurance immediately, no 90-day credentialing gap. Admin handled by VA team — you see patients, not paperwork. No volume quotas. Panel built to your hours, not ours."</li>
+      </ul>
+
+      <h4>Part-Time to Full-Time Conversion Track</h4>
+      <ul class="action-list">
+        <li>Your current part-time provider base is a natural growth lever. Build a clear progression: PT provider → demonstrated patient demand in their schedule → offer additional hours → convert to FT with benefits at the right volume threshold.</li>
+        <li>This is lower-risk than new hires: you already know their clinical quality, patients know them, and the ramp time to full panel is much shorter for an existing provider than a new hire starting from zero.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-block" id="pb-4">
+    <div class="phase-header" onclick="togglePhase('pb-4')">
+      <span class="phase-tag p4-tag">Phase 4</span>
+      <span class="phase-title">The Acquisition Window</span>
+      <span class="phase-meta">Months 18–36</span>
+      <svg class="phase-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="phase-body">
+      <div class="callout callout-green"><strong>What Mindpath did right:</strong> Once their CA infrastructure was stable, they acquired Psychiatric Centers at San Diego — 8 locations, 124 providers — inheriting patient panels, physical addresses, and payer contracts simultaneously. At your stage, by month 18 you will have the infrastructure to do the same at smaller scale.</div>
+
+      <h4>Why the Thesis Works Now</h4>
+      <ul class="action-list">
+        <li>Solo CA psychiatrists and small groups (2–5 providers) are aging out, burning out on billing admin, or simply looking for a responsible exit. Many have existing patient panels, payer contracts, and physical addresses.</li>
+        <li>You already have what makes acquisition operationally feasible: statewide payer contracts your group TIN can extend, a VA admin team that can absorb their billing and scheduling, Valant as the receiving EHR, and an established clinical brand to transfer patients into.</li>
+        <li>An acquisition gives you instantly: a patient panel (revenue from day one), a physical address (solves sublease problem in that market), existing payer contracts (may include Humana MA or Medi-Cal you don't currently have), and a local clinical reputation.</li>
+      </ul>
+
+      <h4>Guardrails — Learn From Mindpath's Mistakes</h4>
+      <ul class="action-list">
+        <li>One acquisition at a time. Minimum 6 months between transactions initially. Every acquisition creates a 90-day integration burden on your admin team — don't stack them.</li>
+        <li>Ideal target: solo MD or small group (2–4 providers), active payer contracts with 2–3 commercial plans plus Medicare, 100–400 established patients, physical address in a target CA market, clean compliance record.</li>
+        <li>Have healthcare M&A counsel review each deal for Stark, Anti-Kickback, CA Medical Corporation rules, and CAQH/payer contract assignment rights before signing anything.</li>
+        <li>Do not acquire more than you can fully onboard in 90 days. Mindpath's failure was acquiring faster than their admin could absorb the intake volume.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- QUALITY FLOOR -->
+  <div class="quality-floor">
+    <div class="eyebrow">Non-negotiable — calibrated to your actual operations</div>
+    <h3>The Quality Floor</h3>
+    <div class="floor-grid">
+      <div class="floor-item">
+        <div class="fi-label">Intake length</div>
+        <div class="fi-rule"><strong>60 minutes — no exceptions under volume pressure.</strong> This is the single most important clinical quality signal. Every competitor that compressed intakes to 45 or 30 minutes created downstream diagnostic errors and patient dissatisfaction that showed up in reviews within 12 months.</div>
+      </div>
+      <div class="floor-item">
+        <div class="fi-label">Follow-up length</div>
+        <div class="fi-rule"><strong>30 minutes standard. 20 minutes for experienced providers at appropriate acuity (stable, well-established patients on maintenance medication).</strong> Not a blanket default for all providers or all patients. Triage criteria for 20-min slots should be defined and enforced in Valant scheduling rules.</div>
+      </div>
+      <div class="floor-item">
+        <div class="fi-label">Panel size guardrail</div>
+        <div class="fi-rule"><strong>Capacity-based, not a fixed number.</strong> The signal to watch is recall interval drift — when stable patients are waiting longer than clinically appropriate between visits because schedules are compressed. Build this as a Valant report and review it monthly.</div>
+      </div>
+      <div class="floor-item">
+        <div class="fi-label">Provider-patient continuity</div>
+        <div class="fi-rule"><strong>No reassignment without patient knowledge and consent, except genuine emergencies.</strong> This is a promise you can make that LifeStance (7,000 providers, high churn) and Geode (repeated layoffs) structurally cannot. Make it a standing written policy.</div>
+      </div>
+      <div class="floor-item">
+        <div class="fi-label">Billing standards</div>
+        <div class="fi-rule"><strong>Insurance verified 48 hrs pre-appointment. Copay confirmed before visit. Zero claims older than 30 days without submission.</strong> Weekly audit. This is your most visible differentiator from LifeStance and Mindpath, whose billing failures are documented at the federal level.</div>
+      </div>
+      <div class="floor-item">
+        <div class="fi-label">Communication SLA</div>
+        <div class="fi-rule"><strong>Portal messages: 24-hour response. Billing disputes: acknowledged 48 hrs, resolved 10 business days.</strong> Foresight's 1-hour phone wait times and Mindpath's unreachable billing department turned basic responsiveness into a marketing opportunity. You already have the VA team to deliver this.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK BLOCK -->
+  <div class="risk-block">
+    <div class="rb-label">Primary risk to monitor</div>
+    <h3>The Revenue Pressure Moment</h3>
+    <p>The failure mode for PsychBright is not a competitor taking your market share — it's internal. The moment you face a revenue shortfall and consider compressing intakes below 60 minutes, defaulting all follow-ups to 20 minutes regardless of acuity, or loosening billing standards to close a quarterly gap. That decision — made once, under pressure, with good justification — is how every competitor lost their quality positioning. Foresight loosened ADHD evaluation standards for revenue. LifeStance loosened billing oversight to hit margins. Geode loosened hiring standards to fill capacity. Your lean overhead model (sublease vs. owned offices, part-time providers, VA admin rather than full staff) is your protection against ever facing this decision under acute financial pressure. Protect that cost structure aggressively as you scale.</p>
+  </div>
+
+</div><!-- /strategy -->
+
+
+<!-- ═══════════════ COMPETITORS ═══════════════ -->
+<div class="section" id="s-competitors">
+
+  <div class="you-block">
+    <div class="eyebrow">Your position — significantly stronger than a typical early-stage group</div>
+    <h3>PsychBright Health · 15 providers · 900 encounters/month · CA-wide payer contracts · Beverly Hills HQ</h3>
+    <p>Unified differentiation thesis: <strong>psychiatry-first, operationally reliable, provider-stable.</strong> Every competitor has built the opposite at scale. Your payer infrastructure is already built. The job is to add the local marketing footprint (GBP + PCP) that the contracts alone don't provide.</p>
+  </div>
+
+  <div class="comp-intro-grid">
+    <div class="anchor-box">
+      <div class="eyebrow">What you have that none of them do cleanly</div>
+      <p>Statewide payer contracts already in place. Psychiatrist-led clinical identity in a market where every comp conflates therapy and psychiatry. Beverly Hills premium brand. Lean overhead structure that gives you margin protection every PE-backed competitor lacks.</p>
+    </div>
+    <div class="anchor-box">
+      <div class="eyebrow">The universal exploit across all four</div>
+      <p>Every competitor has documented, severe billing and communication failures at scale. If PsychBright answers calls, resolves billing within 48 hrs, and responds to portal messages consistently, that alone is a marketable differentiator — and it costs you nothing beyond the VA team you already have.</p>
+    </div>
+  </div>
+
+  <div class="tier-label">Closest trajectory comps — replicate the playbook, avoid the failures</div>
+  <div class="comp-grid">
+    <div class="comp-card" id="cc-mindpath" onclick="toggleComp('mindpath')">
+      <div class="comp-card-top"><span class="comp-name">Mindpath Health</span><span class="comp-badge b-target">Most relevant model</span></div>
+      <div class="comp-sub"><strong>90+ locations</strong> · CA-first origin · Multi-state via acquisition · 2.5★ Glassdoor · Billing + phone access failures</div>
+    </div>
+    <div class="comp-card" id="cc-foresight" onclick="toggleComp('foresight')">
+      <div class="comp-card-top"><span class="comp-name">Foresight Mental Health</span><span class="comp-badge b-ca">CA-rooted, contracting</span></div>
+      <div class="comp-sub"><strong>Shrank from 11 to 5 states</strong> · 2.5★ patient reviews · 1+ hr phone waits · ADHD evaluation credibility gap</div>
+    </div>
+  </div>
+
+  <!-- MINDPATH DETAIL -->
+  <div class="comp-detail" id="cd-mindpath">
+    <div class="cd-header"><h3>Mindpath Health</h3><button class="cd-close" onclick="closeComp('mindpath')">✕</button></div>
+    <div class="cd-metrics">
+      <div class="cd-metric"><div class="m-lbl">Locations</div><div class="m-val">90+</div></div>
+      <div class="cd-metric"><div class="m-lbl">Glassdoor</div><div class="m-val">2.5 / 5</div></div>
+      <div class="cd-metric"><div class="m-lbl">Industry avg</div><div class="m-val">3.4 / 5</div></div>
+      <div class="cd-metric"><div class="m-lbl">Origin</div><div class="m-val">CA-first</div></div>
+    </div>
+    <div class="cd-tabs">
+      <button class="cd-tab active" onclick="switchTab('mindpath','replicate',this)">Replicate / Skip</button>
+      <button class="cd-tab" onclick="switchTab('mindpath','weaknesses',this)">Their Weaknesses</button>
+      <button class="cd-tab" onclick="switchTab('mindpath','differentiate',this)">How to Differentiate</button>
+    </div>
+    <div class="cd-body">
+      <div class="ct-panel active" id="mindpath-replicate">
+        <div class="rg-grid">
+          <div class="rg-do"><div class="rg-lbl">Replicate</div>
+            <div class="rg-item">CA-first multi-city expansion before going multi-state</div>
+            <div class="rg-item">PCP co-management as core referral engine — sublease from PCP offices specifically</div>
+            <div class="rg-item">Single group TIN / brand across all locations (you already have this)</div>
+            <div class="rg-item">Hybrid physical presence + telehealth delivery model</div>
+            <div class="rg-item">Acquisition of solo CA psych practices at the 18–36 month mark</div>
+          </div>
+          <div class="rg-skip"><div class="rg-lbl">Skip / Not Yet</div>
+            <div class="rg-item">Multi-state expansion before CA is deeply owned</div>
+            <div class="rg-item">Full physical offices at $1,500–5,000/mo — sublease nodes only</div>
+            <div class="rg-item">Acquisition velocity that outpaces admin onboarding capacity</div>
+            <div class="rg-item">Metric-driven provider culture (caseload pressure, productivity quotas)</div>
+            <div class="rg-item">EHR instability — Valant is already working, don't change it under growth pressure</div>
+          </div>
+        </div>
+      </div>
+      <div class="ct-panel" id="mindpath-weaknesses">
+        <div class="weakness-item"><div class="wi-tag">Billing — systemic, not isolated</div><div class="wi-text">BBB complaints cite $1,200+ charges for short telehealth visits, mandatory credit card holds, patients discharged mid-care without referrals. One reviewer describes being charged $100 for a missed appointment caused by bowel medication side effects — then being unable to reach anyone to resolve it.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Phone access — management-level denial</div><div class="wi-text">Glassdoor clinician reviews confirm patients couldn't get through by phone and management was aware but did nothing. A former employee describes a meeting where leadership claimed their phone system was efficient while the same person was receiving daily patient complaints about wait times.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Provider morale — 27% below healthcare industry average</div><div class="wi-text">2.5/5 Glassdoor rating. Clinicians describe toxic management, metric-driven culture, providers pushed to see 15–20 patients/day. Multiple reviewers say they tell everyone they know in psychiatry not to work there.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Identity dilution via acquisition roll-up</div><div class="wi-text">Mindpath is primarily an acquisition vehicle with a therapy-heavy provider mix. No coherent clinical identity. Psychiatry is one service line among many, which weakens their positioning for specialty referrals and payer negotiations.</div></div>
+      </div>
+      <div class="ct-panel" id="mindpath-differentiate">
+        <div class="diff-item"><div class="di-tag">Psychiatry-first vs. acquisition roll-up brand</div><div class="di-text">Mindpath's brand is diluted by its therapy-heavy mix and acquisition-driven growth. PsychBright can own "the psychiatry group" positioning — psychiatrist-led, not a therapy platform that happens to prescribe. That specificity matters to PCPs making referral decisions.</div></div>
+        <div class="diff-item"><div class="di-tag">Billing transparency as a patient acquisition tool</div><div class="di-text">Publish your billing standards explicitly: insurance verified 48 hours before every appointment, copay confirmed before the visit, zero surprise charges. Patients burned by Mindpath's billing pattern will actively seek out and share positive alternatives. This is organic word-of-mouth marketing with zero cost.</div></div>
+        <div class="diff-item"><div class="di-tag">Provider experience as a recruiting moat</div><div class="di-text">Experienced CA-licensed NPs and MDs leaving Mindpath are your best recruiting pipeline. They know the insurance-based telehealth model and they left a competitor. The pitch: no productivity quotas, admin handled by VA team, panel sized to your hours not our revenue targets.</div></div>
+        <div class="diff-item"><div class="di-tag">Clinical continuity as a standing commitment</div><div class="di-text">Mindpath's metric-driven churn disrupts patient-provider relationships constantly. PsychBright can make and keep a written commitment: same prescriber, every appointment, no reassignment without consent. That promise is worth more in the mental health context than in almost any other specialty.</div></div>
+      </div>
+      <div class="cd-note">Mindpath is your trajectory blueprint and your most direct acquisition target pool. Every weakness they've built into their operational DNA is a positioning opportunity for PsychBright to own the quality end of the CA psychiatry market — at a fraction of Mindpath's overhead.</div>
+    </div>
+  </div>
+
+  <!-- FORESIGHT DETAIL -->
+  <div class="comp-detail" id="cd-foresight">
+    <div class="cd-header"><h3>Foresight Mental Health</h3><button class="cd-close" onclick="closeComp('foresight')">✕</button></div>
+    <div class="cd-metrics">
+      <div class="cd-metric"><div class="m-lbl">Patient rating</div><div class="m-val">2.5 / 5</div></div>
+      <div class="cd-metric"><div class="m-lbl">State count</div><div class="m-val">5 (from 11)</div></div>
+      <div class="cd-metric"><div class="m-lbl">Status</div><div class="m-val">Contracting</div></div>
+      <div class="cd-metric"><div class="m-lbl">Primary model</div><div class="m-val">Therapy-first</div></div>
+    </div>
+    <div class="cd-tabs">
+      <button class="cd-tab active" onclick="switchTab('foresight','replicate',this)">Replicate / Skip</button>
+      <button class="cd-tab" onclick="switchTab('foresight','weaknesses',this)">Their Weaknesses</button>
+      <button class="cd-tab" onclick="switchTab('foresight','differentiate',this)">How to Differentiate</button>
+    </div>
+    <div class="cd-body">
+      <div class="ct-panel active" id="foresight-replicate">
+        <div class="rg-grid">
+          <div class="rg-do"><div class="rg-lbl">Replicate</div>
+            <div class="rg-item">Medicare Advantage contracting in CA — you're mostly there, close Humana</div>
+            <div class="rg-item">Physical node per major CA market for local GBP and PCP presence</div>
+            <div class="rg-item">CA-specific landing pages with real local addresses behind them</div>
+            <div class="rg-item">IOP/PHP as a future higher-acuity revenue line (Phase 4 consideration)</div>
+          </div>
+          <div class="rg-skip"><div class="rg-lbl">Skip</div>
+            <div class="rg-item">Therapy as primary service line — your psychiatry-first identity is the differentiator</div>
+            <div class="rg-item">Low-copay / affordability-first positioning — compete on quality, not price</div>
+            <div class="rg-item">High-volume broad age range model — focus on adults, do it excellently</div>
+            <div class="rg-item">Multi-state expansion before CA generates sustainable margin</div>
+          </div>
+        </div>
+      </div>
+      <div class="ct-panel" id="foresight-weaknesses">
+        <div class="weakness-item"><div class="wi-tag">Structural contraction — not a recovery story</div><div class="wi-text">Shrank from 11 states to 5, closed group therapy, removed nutritional counseling, laid off 20% of staff, nearly ran out of cash in 2022. They are in stabilization mode. The CA market share they've ceded since 2022 is available — they're not coming back for it at scale.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Communication breakdown — documented and ongoing</div><div class="wi-text">Patients report 1+ hour phone wait times. Providers ghost appointments without cancellation. Portal messages go unanswered for days. Yelp reviews describe scheduling 16 appointments without confirmation, unable to reach anyone to cancel. These are current-year reviews, not historical.</div></div>
+        <div class="weakness-item"><div class="wi-tag">ADHD evaluation credibility gap — exploitable</div><div class="wi-text">Multiple independent reviews describe $500+ ADHD evaluations resulting in inconclusive findings as a recurring pattern. This has damaged their CA reputation specifically in the ADHD segment — one of the highest-volume search categories in outpatient psychiatry.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Therapy-first identity limits psychiatry depth</div><div class="wi-text">Foresight markets burnout, relationship counseling, and life transitions as primary services. Psychiatry and medication management are secondary. Patients and PCPs who need real prescribing expertise don't think of Foresight first — and that's a search and referral gap you can own.</div></div>
+      </div>
+      <div class="ct-panel" id="foresight-differentiate">
+        <div class="diff-item"><div class="di-tag">Psychiatry-first vs. therapy-first — make it a search strategy</div><div class="di-text">"Online psychiatrist California," "medication management ADHD Los Angeles," "board-certified psychiatrist San Diego" — these are search terms Foresight doesn't rank well for because their brand is therapy-first. PsychBright should own these terms explicitly through location pages, GBP categories, and content strategy.</div></div>
+        <div class="diff-item"><div class="di-tag">ADHD evaluation integrity — a direct category takeover</div><div class="di-text">Foresight's ADHD reputation in CA is actively negative and searchable. Build a dedicated ADHD evaluation page that explains your protocol transparently: what instruments you use, what the process looks like, what outcomes you commit to. This is both a clinical quality statement and a direct SEO opportunity against a damaged competitor.</div></div>
+        <div class="diff-item"><div class="di-tag">Operational reliability as a brand promise</div><div class="di-text">Answer the phone. Respond to portal messages within 24 hours. Confirm appointments. These are so basic that committing to them publicly — on your website, in your intake communications — is a meaningful differentiator in a market where Foresight has made them exceptional.</div></div>
+        <div class="diff-item"><div class="di-tag">Premium vs. volume — Beverly Hills vs. $5 copay</div><div class="di-text">Foresight competes on $5 copays and broad accessibility. That positioning attracts high volume, low-acuity, price-sensitive patients and creates the operational strain showing up in their reviews. PsychBright's Beverly Hills origin is a natural premium signal — lean into it, don't apologize for it.</div></div>
+      </div>
+      <div class="cd-note">Foresight is your most immediately vulnerable CA competitor. Their contraction from 11 states to 5 since 2022 represents real CA market share that is genuinely available. A psychiatry-first, operationally reliable group can take it directly — particularly in the ADHD and medication management segments where Foresight's reputation is most damaged.</div>
+    </div>
+  </div>
+
+  <div class="tier-label">Regional scale targets — 3–5 year models</div>
+  <div class="comp-grid">
+    <div class="comp-card" id="cc-lifestance" onclick="toggleComp('lifestance')">
+      <div class="comp-card-top"><span class="comp-name">LifeStance Health</span><span class="comp-badge b-reg">Publicly traded</span></div>
+      <div class="comp-sub"><strong>550+ clinics, 33 states</strong> · 47 CA sites · Billing class-action · Meta data-sharing lawsuit · New CEO Feb 2025</div>
+    </div>
+    <div class="comp-card" id="cc-geode" onclick="toggleComp('geode')">
+      <div class="comp-card-top"><span class="comp-name">Geode Health</span><span class="comp-badge b-reg">PE-backed</span></div>
+      <div class="comp-sub"><strong>Psych + therapy + TMS</strong> · High provider turnover · "Revenue-extraction" culture per own clinicians · Limited CA footprint</div>
+    </div>
+  </div>
+
+  <!-- LIFESTANCE DETAIL -->
+  <div class="comp-detail" id="cd-lifestance">
+    <div class="cd-header"><h3>LifeStance Health</h3><button class="cd-close" onclick="closeComp('lifestance')">✕</button></div>
+    <div class="cd-metrics">
+      <div class="cd-metric"><div class="m-lbl">CA clinics</div><div class="m-val">47</div></div>
+      <div class="cd-metric"><div class="m-lbl">CA providers</div><div class="m-val">787</div></div>
+      <div class="cd-metric"><div class="m-lbl">Shareholder suit</div><div class="m-val">$50M settled</div></div>
+      <div class="cd-metric"><div class="m-lbl">Virtual mix</div><div class="m-val">71%</div></div>
+    </div>
+    <div class="cd-tabs">
+      <button class="cd-tab active" onclick="switchTab('lifestance','replicate',this)">Replicate / Skip</button>
+      <button class="cd-tab" onclick="switchTab('lifestance','weaknesses',this)">Their Weaknesses</button>
+      <button class="cd-tab" onclick="switchTab('lifestance','differentiate',this)">How to Differentiate</button>
+    </div>
+    <div class="cd-body">
+      <div class="ct-panel active" id="lifestance-replicate">
+        <div class="rg-grid">
+          <div class="rg-do"><div class="rg-lbl">Replicate</div>
+            <div class="rg-item">W2 employment model at scale — eliminates metric-gaming</div>
+            <div class="rg-item">Single group NPI, centralized billing across all locations (you already have this)</div>
+            <div class="rg-item">71/29 virtual-to-in-person delivery ratio</div>
+            <div class="rg-item">Geographic coverage of all major CA metros as the benchmark</div>
+            <div class="rg-item">47 CA clinics + 787 CA providers as your long-range volume benchmark</div>
+          </div>
+          <div class="rg-skip"><div class="rg-lbl">Skip</div>
+            <div class="rg-item">Full physical offices at their price points — sublease nodes only</div>
+            <div class="rg-item">National expansion before CA market share is deeply owned</div>
+            <div class="rg-item">Public market quarterly earnings pressure on clinical decisions</div>
+            <div class="rg-item">Aggressive no-show fee structures that generate billing disputes</div>
+          </div>
+        </div>
+      </div>
+      <div class="ct-panel" id="lifestance-weaknesses">
+        <div class="weakness-item"><div class="wi-tag">Billing — federal-level documented, ongoing</div><div class="wi-text">Capitol Forum investigation, BBB pattern complaints, FTC and state AG filings document: insurance claims not submitted for months, patients charged cash rates they don't owe, no-show fees charged for platform technical failures, accounts sent to debt collectors on disputed balances. The BBB formally requested remediation in writing. These are not historical — BBB complaints continue into 2025.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Legal exposure — multiple concurrent suits</div><div class="wi-text">Settled a $50M shareholder class-action over clinician retention misrepresentation. Two labor law suits from 15 former employees over salary clawback practices. January 2025: class-action filed over sharing patient data with Meta without consent. New CEO installed February 2025 amid ongoing scrutiny.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Clinician churn — shareholders sued over it</div><div class="wi-text">High clinician turnover is a structural problem flagged by Hindenburg Research and confirmed in the shareholder suit. The practical consequence for patients: routine reassignments, broken clinical relationships, highly variable care quality across 7,000+ providers.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Scale creates quality control impossibility</div><div class="wi-text">With 7,000+ providers across 33 states, clinical quality variance is enormous and structurally unmanageable. Reviews range from excellent individual providers to ghost appointments, inexperienced therapists, and zero follow-up. The brand carries both extremes simultaneously — a positioning problem you won't have at your scale.</div></div>
+      </div>
+      <div class="ct-panel" id="lifestance-differentiate">
+        <div class="diff-item"><div class="di-tag">Billing integrity as an explicit brand pillar</div><div class="di-text">LifeStance's billing failures have drawn federal and state regulatory scrutiny. Publicly committing to specific billing standards — insurance verified before every appointment, copay confirmed in advance, zero surprise charges — is a direct conversion argument for the large pool of CA patients with a LifeStance billing story. This is a patient acquisition argument, not just a quality commitment.</div></div>
+        <div class="diff-item"><div class="di-tag">Provider continuity as a patient-facing promise</div><div class="di-text">LifeStance's structural churn means patients get reassigned constantly. PsychBright's scale makes "same psychiatrist, every appointment" a promise you can actually keep. Market it explicitly. In mental health more than any other specialty, this continuity is the care — it's not a nice-to-have.</div></div>
+        <div class="diff-item"><div class="di-tag">Privacy and data trust — timing is right</div><div class="di-text">The Meta data-sharing lawsuit filed in January 2025 is a live, newsworthy story. PsychBright can position around explicit HIPAA-first operations and no third-party data sharing — not as a legal compliance statement but as a patient trust statement. Mental health data is the most sensitive category of personal health information.</div></div>
+        <div class="diff-item"><div class="di-tag">Psychiatry focus vs. everything-to-everyone breadth</div><div class="di-text">LifeStance serves all ages, all conditions, therapy and psychiatry equally. Psychiatry is one revenue line among many. PsychBright's deliberate focus on psychiatry and medication management is a quality signal to patients who've been under-served by generalist platforms — and a more defensible referral positioning with PCPs who want a genuine psychiatry specialist to refer to.</div></div>
+      </div>
+      <div class="cd-note">LifeStance is your 5-year scale target. Their 47 CA clinics and 787 CA providers define what full CA market coverage looks like — but their billing record, clinician churn, and data-sharing lawsuit have created a pool of disaffected CA patients and providers who are actively looking for an alternative. That pool grows every month.</div>
+    </div>
+  </div>
+
+  <!-- GEODE DETAIL -->
+  <div class="comp-detail" id="cd-geode">
+    <div class="cd-header"><h3>Geode Health</h3><button class="cd-close" onclick="closeComp('geode')">✕</button></div>
+    <div class="cd-metrics">
+      <div class="cd-metric"><div class="m-lbl">Backing</div><div class="m-val">PE-funded</div></div>
+      <div class="cd-metric"><div class="m-lbl">Services</div><div class="m-val">Psych + therapy + TMS</div></div>
+      <div class="cd-metric"><div class="m-lbl">CA footprint</div><div class="m-val">Limited</div></div>
+      <div class="cd-metric"><div class="m-lbl">Glassdoor</div><div class="m-val">3.9 / 5</div></div>
+    </div>
+    <div class="cd-tabs">
+      <button class="cd-tab active" onclick="switchTab('geode','replicate',this)">Replicate / Skip</button>
+      <button class="cd-tab" onclick="switchTab('geode','weaknesses',this)">Their Weaknesses</button>
+      <button class="cd-tab" onclick="switchTab('geode','differentiate',this)">How to Differentiate</button>
+    </div>
+    <div class="cd-body">
+      <div class="ct-panel active" id="geode-replicate">
+        <div class="rg-grid">
+          <div class="rg-do"><div class="rg-lbl">Replicate</div>
+            <div class="rg-item">Local offices as referral anchors in each target metro</div>
+            <div class="rg-item">Psychiatry + therapy co-location model (you already have therapists)</div>
+            <div class="rg-item">TMS / Spravato as a future revenue tier — viable at 3–5 year horizon</div>
+            <div class="rg-item">In-person presence as differentiation vs. pure-virtual competitors</div>
+          </div>
+          <div class="rg-skip"><div class="rg-lbl">Skip</div>
+            <div class="rg-item">TMS capex before psychiatry volume fully supports it</div>
+            <div class="rg-item">PE-funded rapid expansion model and its cultural consequences</div>
+            <div class="rg-item">Factory-cadence scheduling (4 new patients/day target)</div>
+            <div class="rg-item">National build before CA is profitably owned</div>
+          </div>
+        </div>
+      </div>
+      <div class="ct-panel" id="geode-weaknesses">
+        <div class="weakness-item"><div class="wi-tag">PE-driven clinical culture — self-described by clinicians</div><div class="wi-text">Glassdoor reviews from their own providers describe "a revenue-extraction exercise wearing a thin clinical disguise" — clinicians pushed to 4 new patients/day, billing $650 for initial sessions, quality of care treated as "an inconvenient byproduct." This is current-year review language, not historical.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Repeated layoffs and abrupt terminations</div><div class="wi-text">Multiple layoff rounds documented. Staff describe losing EHR access mid-shift without warning, leaving patients without prescription refills. This creates patient continuity failures identical to LifeStance's churn problem — at a smaller, more acute scale.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Administrative dysfunction pushed onto clinicians</div><div class="wi-text">Providers responsible for virtually all admin duties. Understaffing led to front-line staff unable to reach medical staff during patient crises. Training described as "minimal and inconsistent." PsychBright's VA admin model is a structural counter to this — providers at PsychBright only see patients.</div></div>
+        <div class="weakness-item"><div class="wi-tag">Limited CA footprint — the window is open now</div><div class="wi-text">Geode's strength markets are Illinois, Texas, Georgia, and the Midwest. California is not where they've concentrated capital or clinical hiring. PsychBright has 12–24 months to establish CA payer directory presence, GBP rankings, and PCP relationships that will be expensive to displace regardless of capital.</div></div>
+      </div>
+      <div class="ct-panel" id="geode-differentiate">
+        <div class="diff-item"><div class="di-tag">Mission-driven vs. PE-extractive — make it a narrative</div><div class="di-text">Geode's own clinicians call it a profit-extraction exercise. PsychBright's founding story, Beverly Hills clinical identity, and operating structure (lean overhead, no PE backing, no quarterly earnings pressure) all support a genuine "the psychiatry group that actually practices medicine" narrative — for patients and for recruiting.</div></div>
+        <div class="diff-item"><div class="di-tag">Provider stability = patient stability = clinical outcomes</div><div class="di-text">Geode's layoffs mean patients lose providers suddenly. Position PsychBright around provider tenure and continuity as a clinical quality argument, not just a comfort argument. In psychiatry, therapeutic relationship continuity is correlated with better medication adherence and lower relapse rates. This is a clinical claim, not just a marketing claim.</div></div>
+        <div class="diff-item"><div class="di-tag">Admin support as a clinical quality signal</div><div class="di-text">Geode pushes admin work onto providers, burning them out. PsychBright's VA-supported model means providers only do clinical work. This directly improves provider retention and care quality — and it's a recruiting argument that resonates immediately with providers who've worked at Geode or similar PE-backed groups.</div></div>
+        <div class="diff-item"><div class="di-tag">CA first-mover advantage — this window closes</div><div class="di-text">Geode is not in California at meaningful scale. The 12–24 month window to establish CA GBP rankings, local SEO, and PCP referral relationships before a well-capitalized competitor arrives is real. Local search rankings and referral relationships are sticky — they compound over time and are expensive to displace with money alone.</div></div>
+      </div>
+      <div class="cd-note">Geode is your future-state model for adding interventional psychiatry (TMS, esketamine) — but right now their PE-driven culture is generating the same failures as the other competitors. The CA window is open. The differentiator is the same across all four: mission-driven clinical culture, operational reliability, and provider continuity.</div>
+    </div>
+  </div>
+
+</div><!-- /competitors -->
+
+<div class="doc-footer">
+  <span>PsychBright Health · Growth Strategy · v2 May 2026 · Calibrated to 15 providers, 900 encounters/month, statewide payer contracts</span>
+  <span>Confidential — internal use only</span>
+</div>
+
+</div><!-- /page-wrap -->
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+function togglePhase(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleComp(id) {
+  const card = document.getElementById('cc-' + id);
+  const detail = document.getElementById('cd-' + id);
+  const isOpen = detail.classList.contains('open');
+  document.querySelectorAll('.comp-detail').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.comp-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    detail.classList.add('open');
+    card.classList.add('open');
+    setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  }
+}
+function closeComp(id) {
+  document.getElementById('cd-' + id).classList.remove('open');
+  document.getElementById('cc-' + id).classList.remove('open');
+}
+function switchTab(comp, tab, btn) {
+  const detail = document.getElementById('cd-' + comp);
+  detail.querySelectorAll('.ct-panel').forEach(p => p.classList.remove('active'));
+  detail.querySelectorAll('.cd-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(comp + '-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
